@@ -1,4 +1,5 @@
 import CardDesc from "@/components/shared/CardDesc";
+import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
 import Link from "next/link";
 
@@ -34,7 +35,7 @@ export default function Home() {
       </section>
 
       {/* About Us Section */}
-      <section id="about" className="py-16 px-10 bg-gray-100 w-full h-screen">
+      <section id="about" className="py-16 px-10 bg-gray-100 w-full h-[600px]">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold mb-8">About Us</h2>
           <p className="text-lg mb-12 max-w-4xl mx-auto">
@@ -54,6 +55,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Footer />
         </div>
   );
 }
