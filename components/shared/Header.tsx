@@ -12,13 +12,13 @@ const Header = () => {
         <div className="container mx-auto flex justify-between items-center">
             {/* logo */}
             <Link href={"/"}>
-                <h1 className="text-2xl">LUN<span className="text-green-500">IH</span></h1>
+                <h1 className="text-2xl">LUN<span className="text-primary-100">IH</span></h1>
             </Link>
             {/* desktop navigation */}
             <div className="hidden xl:flex items-center gap-8">
                 <Navbar />
                 <Link href={"/sign in"}>
-                    <Button className="bg-green-500">Sign In</Button>
+                    <Button className="bg-primary-100 hover:bg-primary-200 rounded-full">Sign In</Button>
                 </Link>
             </div>
             {/* mobile nav */}

@@ -14,18 +14,18 @@ const MobileNav = () => {
   return (
     <Sheet>
         <SheetTrigger className="flex justify-center items-center">
-            <Menu className="text-[32px] text-accent"/>
+            <Menu className="text-[32px] text-black"/>
         </SheetTrigger>
         <SheetContent className="flex flex-col">
             {/* logo */}
             <div className="mt-32 mb-10 text-2xl text-center">
                 <Link href={"/"}>
-                    <h1 className="text-4xl font-semibold">LUN<span className="text-green-500">IH</span></h1>
+                    <h1 className="text-4xl font-semibold">LUN<span className="text-primary-100">IH</span></h1>
                 </Link>
             </div>
             <nav className="flex flex-col items-center gap-2">
                 {navLinks.map((link) =>(
-                    <Link href={link.path} key={link.name} className={`${pathname === link.path && "border-b-2 border-green-500 text-black"} hover:text-accent capitalize transition-all font-medium`}>{link.name}</Link>
+                    <Link href={link.path} key={link.name} className={`${pathname === link.path && "border-b-2 border-primary-100 text-black"} hover:text-secondary-100 capitalize transition-all font-medium`}>{link.name}</Link>
                 ))}
             </nav>
         </SheetContent>

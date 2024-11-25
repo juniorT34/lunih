@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <nav className="flex items-center gap-8 mb-0">
         {navLinks.map((link) =>{
-            return <Link key={link.name} href={link.path} className={`${pathname === link.path && "border-b-2 border-green-500 text-black"} hover:text-black capitalize transition-all font-medium`}>{link.name}</Link>
+            return <Link key={link.name} href={link.path} className={`${pathname === link.path && "border-b-2 border-primary-100 text-black"} hover:text-secondary-100 capitalize transition-all font-medium`}>{link.name}</Link>
         })}
     </nav>
   )
