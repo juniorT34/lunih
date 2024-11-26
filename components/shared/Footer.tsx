@@ -4,7 +4,7 @@ import React from "react";
 const Footer = () => {
     const date = new Date().getFullYear()
   return (
-    <div className="flex flex-col text-center py-5">
+    <div className="flex flex-col text-center py-2 xl:py-4">
       <Link href={"/"}>
         <h1 className="text-2xl">
           LUN<span className="text-primary-100">IH</span>
