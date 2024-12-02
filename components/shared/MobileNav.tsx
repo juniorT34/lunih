@@ -5,6 +5,7 @@ import { Menu } from "lucide-react"
 import Link from "next/link"
 // import { MdOutlineMenu } from "react-icons/md"
 import {navLinks} from "@/constants"
+import { Button } from "../ui/button"
 
 type Props = {}
 
@@ -27,6 +28,9 @@ const MobileNav = () => {
                 {navLinks.map((link) =>(
                     <Link href={link.path} key={link.name} className={`${pathname === link.path && "border-b-2 border-primary-100 text-black"} hover:text-secondary-100 capitalize transition-all font-medium`}>{link.name}</Link>
                 ))}
+                <Link href={"/sign-in"}>
+                    <Button className="bg-primary-100 hover:bg-primary-200 rounded-full">Sign In</Button>
+                </Link>
             </nav>
         </SheetContent>
     </Sheet>

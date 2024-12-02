@@ -2,10 +2,13 @@ import Link from "next/link"
 import {Button} from "@/components/ui/button"
 import Navbar from "./Navbar"
 import MobileNav from "./MobileNav"
-
+import {auth,currentUser} from '@clerk/nextjs/server'
 type Props = {}
 
-const Header = () => {
+const Header = async () => {
+    const {userId} = await auth()
+    console.log(userId)
+    
   return (
     <header className="py-2 xl:py-4 px-10 bg-slate-100 shadow-md">
 
@@ -17,7 +20,7 @@ const Header = () => {
             {/* desktop navigation */}
             <div className="hidden xl:flex items-center gap-8">
                 <Navbar />
-                <Link href={"/sign in"}>
+                <Link href={"/sign-in"}>
                     <Button className="bg-primary-100 hover:bg-primary-200 rounded-full">Sign In</Button>
                 </Link>
             </div>
