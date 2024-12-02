@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 This is our LIEPAJA UNIVERSITY NEW IDEA HUB(LUNIH) repository, all the codes will be on this repository, i already created a started project and some pages
 like home page, next from my part will be login, sign up pages and connections to database.
 The best way to work with this repository is to fork it, so you can add your own module or part of the project, and then make a pull request to that we can test it together and see if it does not break anything else in the code.
-for now the repo is public 
+for now the repo is public, also created new branch so we can always come back to the main branch which where the clean and working code should be.
 ## Getting Started
 First, install all dependencies:
 
