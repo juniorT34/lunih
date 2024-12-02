@@ -20,6 +20,7 @@ const Header = async () => {
             {/* desktop navigation */}
             <div className="hidden xl:flex items-center gap-8">
                 <Navbar />
+                
                 <Link href={"/sign-in"}>
                     <Button className="bg-primary-100 hover:bg-primary-200 rounded-full">Sign In</Button>
                 </Link>
