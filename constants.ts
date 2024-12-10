@@ -12,6 +12,10 @@ export const navLinks = [
         'path':'/hub'
     },
     {
+        'name': 'create post',
+        'path':'/post/create'
+    },
+    {
         'name': 'Dashboard',
         'path':'/dashboard'
     },
