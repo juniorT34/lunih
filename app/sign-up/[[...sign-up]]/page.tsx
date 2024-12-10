@@ -1,10 +1,8 @@
-'use client'
-import { SignUp } from '@clerk/nextjs'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-
+import { SignUp} from "@clerk/nextjs";
 
 export default function Page() {
-  // return <SignUp />
-  return <div>sign up</div>
+  return <div className="w-full h-screen flex items-center justify-center">
+      <SignUp />
+    </div>
+    
 }
