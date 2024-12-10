@@ -1,9 +1,17 @@
 import CardDesc from "@/components/shared/CardDesc";
 import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
-import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
 
-export default function Home() {
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+export default async function Home() {
+  const {userId} = await auth()
+ 
+  if(userId){
+    redirect("/hub")
+  }
   return (
     <div className="">
       <Header />
