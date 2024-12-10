@@ -20,15 +20,37 @@ const posts: Post[] = [
   {
     id: 1,
     title: "The Impact of Technology on the Workplace",
-    category: "Technology",
-    image: "/placeholder.svg?height=200&width=300",
+    category: "Internship",
+    image: "/random2.jpg",
     author: {
       name: "John Smith",
-      avatar: "/placeholder.svg",
+      avatar: "person1.jpg",
     },
     date: "August 20, 2023",
   },
-  // Add more posts here...
+  {
+    id: 2,
+    title: "The Impact of Technology on the Workplace",
+    category: "Internship",
+    image: "/random3.jpg",
+    author: {
+      name: "John Smith",
+      avatar: "person1.jpg",
+    },
+    date: "August 20, 2023",
+  },
+  {
+    id: 3,
+    title: "The Impact of Technology on the Workplace",
+    category: "Internship",
+    image: "/random4.jpg",
+    author: {
+      name: "John Smith",
+      avatar: "person1.jpg",
+    },
+    date: "August 20, 2023",
+  },
+  
 ]
 
 export default function PostGrid() {
@@ -49,7 +71,7 @@ export default function PostGrid() {
                   />
                 </div>
                 <div className="p-4">
-                  <Badge className="mb-2 bg-blue-500 hover:bg-blue-600">
+                  <Badge className="mb-2 bg-primary-100 hover:bg-primary-200">
                     {post.category}
                   </Badge>
                   <h3 className="mb-4 text-lg font-semibold">{post.title}</h3>
@@ -72,7 +94,7 @@ export default function PostGrid() {
                   <Button variant="outline" className="flex-1">
                     Read More
                   </Button>
-                  <Button className="flex-1 bg-blue-500 hover:bg-blue-600">
+                  <Button className="flex-1 hover:bg-primary-200 bg-primary-100">
                     Join
                   </Button>
                 </div>

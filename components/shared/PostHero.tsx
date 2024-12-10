@@ -14,16 +14,16 @@ export default function Hero() {
                 alt="Featured post"
                 className="object-cover"
                 fill
-                src="/placeholder.svg?height=400&width=800"
+                src="/random2.jpg"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
-                <Badge className="mb-2 bg-blue-500 hover:bg-blue-600">Technology</Badge>
+                <Badge className="mb-2 bg-blue-500 hover:bg-blue-600">Internship</Badge>
                 <h1 className="mb-4 text-2xl font-bold">
                   The Impact of Technology on the Workplace: How Technology is Changing
                 </h1>
                 <div className="flex items-center gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage alt="Author" src="/placeholder.svg" />
+                    <AvatarImage alt="Author" src="/person2.jpg" />
                     <AvatarFallback>A</AvatarFallback>
                   </Avatar>
                   <div className="text-sm">
