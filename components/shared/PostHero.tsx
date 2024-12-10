@@ -17,7 +17,7 @@ export default function Hero() {
                 src="/random2.jpg"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
-                <Badge className="mb-2 bg-blue-500 hover:bg-blue-600">Internship</Badge>
+                <Badge className="mb-2 bg-primary-100 hover:bg-primary-200">Internship</Badge>
                 <h1 className="mb-4 text-2xl font-bold">
                   The Impact of Technology on the Workplace: How Technology is Changing
                 </h1>

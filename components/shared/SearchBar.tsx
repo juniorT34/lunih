@@ -13,7 +13,7 @@ export function SearchBar() {
               placeholder="Search articles..." 
               className="flex-grow"
             />
-            <Button type="submit" className="bg-blue-500 hover:bg-blue-600">
+            <Button type="submit" className="bg-primary-100 hover:bg-primary-200">
               <Search className="h-4 w-4 mr-2" />
               Search
             </Button>

@@ -6,21 +6,15 @@ const Sample = () => {
   return (
     <div className=''>
         <Header />
-        <div className='container mx-auto px-4 py-2 xl:py-4'>
+        <div className='container mx-auto px-4 py-2 xl:py-4 mt-5'>
 
         <div>
 
-            <h1>Hey, Junior</h1>
-            <h2>Discover projects and creative ideas.</h2>
+            <h1 className='text-2xl text-center'>Hey, <span className='font-bold text-primary-100'>Junior</span></h1>
+            <h2 className='text-center text-xl'>Discover projects and creative ideas.</h2>
         </div>
 
-        <div>
-            Random project and idea that the user might like
-            (image) and text on the side to join or read more
         </div>
-        </div>
-        {/* category list */}
-        <div></div>
     </div>
   )
 }

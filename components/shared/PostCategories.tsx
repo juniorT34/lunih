@@ -12,7 +12,7 @@ export default function PostCategories() {
             <Button
               key={category}
               variant="outline"
-              className="text-blue-500 border-blue-500 hover:bg-blue-50"
+              className="text-primary-100 border-primary-100 hover:bg-blue-50"
             >
               {category}
             </Button>
