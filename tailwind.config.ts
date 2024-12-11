@@ -21,6 +21,7 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
+				'50': ' #F6F8FD',
 				  '100': '#009975',
 				  '200':'#015551',
   				DEFAULT: 'hsl(var(--primary))',
@@ -54,6 +55,9 @@ export default {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
+		  backgroundImage: {
+			'dotted-pattern': "url('/dotted-pattern.png')",
+		  },	
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

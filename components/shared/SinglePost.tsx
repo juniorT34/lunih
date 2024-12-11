@@ -80,6 +80,7 @@ export default function SinglePost() {
               Join this project
             </Button>
           </div>
+      <p>related </p>
         </div>
       </div>
     </article>

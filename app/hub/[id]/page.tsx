@@ -5,7 +5,7 @@ type Props = {}
 
 const Post = (props: Props) => {
   return (
-    <div>
+    <div className=''>
         <SinglePost />
     </div>
   )

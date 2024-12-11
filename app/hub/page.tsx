@@ -11,7 +11,7 @@ const Hub = async() => {
   const user = await currentUser()
   console.log(user)
     return (
-    <div>
+    <div className="bg-primary-50 bg-dotted-pattern bg-cover bg-center">
       
       <Sample />
       <Hero />
