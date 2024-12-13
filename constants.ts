@@ -13,7 +13,7 @@ export const navLinks = [
     },
     {
         'name': 'create post',
-        'path':'/post/create'
+        'path':'/hub/create'
     },
     {
         'name': 'Dashboard',
