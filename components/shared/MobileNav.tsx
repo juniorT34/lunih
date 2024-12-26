@@ -6,6 +6,8 @@ import Link from "next/link"
 // import { MdOutlineMenu } from "react-icons/md"
 import {navLinks} from "@/constants"
 import { Button } from "../ui/button"
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
+import { SignOutButton } from '@clerk/nextjs'
 
 type Props = {}
 
@@ -28,9 +30,17 @@ const MobileNav = () => {
                 {navLinks.map((link) =>(
                     <Link href={link.path} key={link.name} className={`${pathname === link.path && "border-b-2 border-primary-100 text-black"} hover:text-secondary-100 capitalize transition-all font-medium`}>{link.name}</Link>
                 ))}
-                <Link href={"/sign-in"}>
-                    <Button className="bg-primary-100 hover:bg-primary-200 rounded-full">Sign In</Button>
-                </Link>
+
+                <SignedIn>
+                    <SignOutButton redirectUrl="/">
+                        <Button className="w-full bg-primary-100 hover:bg-primary-200 rounded-full"> Sign out</Button>
+                    </SignOutButton>
+                </SignedIn>
+                <SignedOut>
+                    <SignInButton>
+                        <Button className=" bg-primary-100 hover:bg-primary-200 rounded-full"> Sign in</Button>
+                    </SignInButton>
+                </SignedOut>
             </nav>
         </SheetContent>
     </Sheet>

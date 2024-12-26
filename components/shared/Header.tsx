@@ -3,6 +3,7 @@ import {Button} from "@/components/ui/button"
 import Navbar from "./Navbar"
 import MobileNav from "./MobileNav"
 import {auth,currentUser} from '@clerk/nextjs/server'
+import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs"
 type Props = {}
 
 const Header = async () => {
@@ -20,10 +21,18 @@ const Header = async () => {
             {/* desktop navigation */}
             <div className="hidden xl:flex items-center gap-8">
                 <Navbar />
-                
-                <Link href={"/sign-in"}>
-                    <Button className="bg-primary-100 hover:bg-primary-200 rounded-full">Sign In</Button>
-                </Link>
+                <div>
+                <SignedIn>
+                    <SignOutButton redirectUrl="/">
+                        <Button className="w-full bg-primary-100 hover:bg-primary-200 rounded-full"> Sign out</Button>
+                    </SignOutButton>
+                </SignedIn>
+                <SignedOut>
+                    <SignInButton>
+                        <Button className=" bg-primary-100 hover:bg-primary-200 rounded-full"> Sign in</Button>
+                    </SignInButton>
+                </SignedOut>
+                </div>
             </div>
             {/* mobile nav */}
             <div className="xl:hidden">

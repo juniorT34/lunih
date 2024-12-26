@@ -227,7 +227,7 @@ const RegisterPage = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" onClick={onPressVerify} className="w-full">
+            <Button type="submit" onClick={onPressVerify} className="w-full bg-primary-100 hover:bg-primary-200">
               Verify Email
             </Button>
           </form>
