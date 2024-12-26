@@ -1,6 +1,8 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
+import { createUser } from '@/lib/actions/user.actions'
+import { User } from '@prisma/client'
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET
@@ -51,6 +53,26 @@ export async function POST(req: Request) {
   const eventType = evt.type
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
   console.log('Webhook payload:', body)
-
   return new Response('Webhook received', { status: 200 })
+
+// if (eventType === 'user.created') {
+//     const { id, email_addresses, first_name, last_name, image_url } = evt.data
+
+//     if (!id || !email_addresses) {
+//       return new Response('Error occurred -- missing data', {
+//         status: 400
+//       })
+//     }
+//     const user = {
+//         clerkUserId: id,
+//         email: email_addresses[0].email_address,
+//         ...(first_name ? { firstName: first_name } : {}),
+//         ...(last_name ? { lastName: last_name } : {}),
+//         ...(image_url ? { imageUrl: image_url } : {})
+//       }
+  
+//       await createUser(user as User)
+// }
+
+//   return new Response('Webhook received', { status: 200 })
 }
