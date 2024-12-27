@@ -1,13 +1,30 @@
 import prisma from "@/lib/prisma";
 import { User } from "@prisma/client";
 
-export async function createUser(data: User){
+export async function createUser(data: User) {
     try {
-        const user = await prisma.user.create({data})
+      // Remove id from data if it's empty string or undefined
+      if (!data.id) {
+        const { id, ...userData } = data;
+        const user = await prisma.user.create({
+          data: userData,
+        });
+        console.log("User created successfully:", user);
+        return new Response("User successfully created", { status: 201 });
+      }
+  
+      const user = await prisma.user.create({
+        data,
+      });
+      console.log("User created successfully:", user);
+      return new Response("User successfully created", { status: 201 });
     } catch (error) {
-        return {error}
+      console.error('Error creating user:', error);
+      return new Response('Error occurred while creating user', {
+        status: 500
+      });
     }
-}
+  }
 
 export async function getUserById({id, clerkUserId} : {id?:string,clerkUserId?: string}) {
     try {
@@ -37,7 +54,7 @@ export async function DeleteUser(id: string){
         const user = await prisma.user.deleteMany({
             where: {id}
         })
-        
+
     } catch (error) {
         return {error}
     }

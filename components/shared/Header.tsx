@@ -24,7 +24,7 @@ const Header = async () => {
                 <div>
                 <SignedIn>
                     <SignOutButton redirectUrl="/">
-                        <Button className="w-full bg-primary-100 hover:bg-primary-200 rounded-full"> Sign out</Button>
+                        <Button className="bg-primary-100 hover:bg-primary-200 rounded-full"> Sign out</Button>
                     </SignOutButton>
                 </SignedIn>
                 <SignedOut>
