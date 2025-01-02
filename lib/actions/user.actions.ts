@@ -59,3 +59,31 @@ export async function DeleteUser(id: string){
         return {error}
     }
 }
+
+
+export async function updateUser(clerkUserId: string, userData: Partial<User>) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { clerkUserId },
+      data: userData,
+    });
+    
+    return { success: true, data: updatedUser };
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw new Error('Failed to update user');
+  }
+}
+
+export async function deleteUser(clerkUserId: string) {
+  try {
+    const deletedUser = await prisma.user.delete({
+      where: { clerkUserId },
+    });
+    
+    return { success: true, data: deletedUser };
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw new Error('Failed to delete user');
+  }
+}

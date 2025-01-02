@@ -1,9 +1,8 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/lib/actions/user.actions";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 import { Role, User } from "@prisma/client";
-import { hashPassword, verifyPassword } from "@/lib/hashPass";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -87,6 +86,69 @@ export async function POST(req: Request) {
       console.error("Error in webhook handler : ", error)
       return new Response("Error processing webhook",{status:500})
     }
+  }
+
+  if(eventType === "user.updated"){
+    const {id,email_addresses, first_name,last_name,image_url,unsafe_metadata} = evt.data
+    if (!id){
+      console.error("Missing required data : ", {id})
+      return new Response("Error occured -- missing required data", {status:400})
+    }
+
+    try {
+      const userData = {
+        clerkUserId: id,
+        email: email_addresses[0].email_address,
+        firstName: first_name || "",
+        lastName: last_name || "",
+        imageUrl: image_url || "",
+        role: unsafe_metadata.role as Role,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      console.log("updating user with data : ", userData)
+      const result = await updateUser(id,userData as Partial<User>)
+      console.log("User update result : ", result)
+      return new Response(JSON.stringify(result), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      // return result
+    } catch (error) {
+      console.error("Error in webhook handler : ", error)
+      return new Response("Error processing webhook",{status:500})
+    }
+  }
+
+  if (eventType === "user.deleted"){
+    const {id} = evt.data
+    if (!id){
+      console.error("Missing required data : ", {id})
+      return new Response("Error occured -- missing required data", {status:400})
+    }
+
+    try {
+      const userData = {
+        clerkUserId: id,
+      }
+      console.log("deleting user with data : ", userData)
+      const result = await deleteUser(id)
+      console.log("User delete result : ", result)
+      return new Response(JSON.stringify(result), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      // return result
+    } catch (error) {
+      console.error("Error in webhook handler : ", error)
+      return new Response("Error processing webhook",{status:500})
+    }
+
+
   }
   return new Response("Webhook received", {status:200})
 }

@@ -2,13 +2,10 @@ import Link from "next/link"
 import {Button} from "@/components/ui/button"
 import Navbar from "./Navbar"
 import MobileNav from "./MobileNav"
-import {auth,currentUser} from '@clerk/nextjs/server'
 import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs"
-type Props = {}
 
 const Header = async () => {
-    const {userId} = await auth()
-    console.log(userId)
+    
     
   return (
     <header className="py-2 xl:py-4 px-10 bg-slate-100 shadow-md">
