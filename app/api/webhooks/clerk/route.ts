@@ -72,9 +72,9 @@ export async function POST(req: Request) {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-      console.log("Creating user with data : ", userData)
+      // console.log("Creating user with data : ", userData)
       const result = await createUser(userData as User)
-      console.log("User creation result : ", result)
+      // console.log("User creation result : ", result)
       return new Response(JSON.stringify(result), {
         status: 200,
         headers: {
@@ -106,9 +106,9 @@ export async function POST(req: Request) {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-      console.log("updating user with data : ", userData)
+      // console.log("updating user with data : ", userData)
       const result = await updateUser(id,userData as Partial<User>)
-      console.log("User update result : ", result)
+      // console.log("User update result : ", result)
       return new Response(JSON.stringify(result), {
         status: 200,
         headers: {
@@ -133,9 +133,9 @@ export async function POST(req: Request) {
       const userData = {
         clerkUserId: id,
       }
-      console.log("deleting user with data : ", userData)
+      // console.log("deleting user with data : ", userData)
       const result = await deleteUser(id)
-      console.log("User delete result : ", result)
+      // console.log("User delete result : ", result)
       return new Response(JSON.stringify(result), {
         status: 200,
         headers: {
