@@ -1,4 +1,4 @@
-import { SignIn } from '@clerk/nextjs'
+import SignIn from "@/components/shared/SignIn"
 
 export default function Page() {
   

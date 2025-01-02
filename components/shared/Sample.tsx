@@ -1,8 +1,12 @@
 import React from 'react'
-import Navbar from './Navbar'
 import Header from './Header'
+import { auth, currentUser } from '@clerk/nextjs/server'
 
-const Sample = () => {
+const  Sample = async() => {
+  const { userId } = await auth()
+  const user = await currentUser()
+  
+  console.log("current user : ",user)
   return (
     <div className=''>
         <Header />
@@ -10,7 +14,7 @@ const Sample = () => {
 
         <div>
 
-            <h1 className='text-2xl text-center'>Hey, <span className='font-bold text-primary-100'>Junior</span></h1>
+            <h1 className='text-2xl text-center'>Hey, <span className='font-bold text-primary-100'>{currentUser.name}</span></h1>
             <h2 className='text-center text-xl'>Discover projects and creative ideas.</h2>
         </div>
 
