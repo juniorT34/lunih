@@ -5,7 +5,9 @@ import { z } from "zod";
 import { useState } from "react";
 import { ImagePlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {toast} from "@/components/ui/use-toast"
+// import {toast} from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
+
 import {useRouter} from "next/navigation"
 import {
   Form,
@@ -38,6 +40,7 @@ export default function CreatePostForm() {
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState("");
   const router = useRouter()
+  const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
