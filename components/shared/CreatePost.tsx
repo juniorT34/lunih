@@ -5,6 +5,8 @@ import { z } from "zod";
 import { useState } from "react";
 import { ImagePlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {toast} from "@/components/ui/use-toast"
+import {useRouter} from "next/navigation"
 import {
   Form,
   FormControl,
@@ -25,16 +27,17 @@ import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   title: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "title must be at least 2 characters.",
   }),
-  category: z.string(),
-  description: z.string(),
+  category: z.string().min(1,{message: "choose at least one"}),
+  description: z.string().min(20,{message: "description must be at least 20 characters"}),
   image: z.string(),
 });
 
 export default function CreatePostForm() {
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState("");
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,8 +49,37 @@ export default function CreatePostForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    try {
+      const result = await createPost({
+        title: values.title,
+        description: values.description,
+        category: values.category,
+        image: values.image
+      })
+
+      if(result.success){
+        toast({
+          title: "Success!",
+          description: "Your post has been created."
+        })
+        router.push("/hub")
+      }else{
+        toast({
+          title:"Error",
+          description: result.error || "Failed to create post",
+          variant: "destructive"
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive"
+
+      })
+    }
   }
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
