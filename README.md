@@ -35,7 +35,6 @@ The LUNIH platform, designed as a web-based collaboration hub for universities, 
 - / : home page
 - /sign-up : sign up page
 - /sign-in : sign in page
-- /onboard : for onboarding or selecting user type and asking basic information about user.
 - /hub : project submission page
 - /dashboard : user information including post information, profile, etc...
 
