@@ -39,6 +39,7 @@ const formSchema = z.object({
 export default function CreatePostForm() {
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const router = useRouter()
   const { toast } = useToast()
 
@@ -51,15 +52,41 @@ export default function CreatePostForm() {
       image: "",
     },
   });
+  
+
+  const handleImageUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] as File;
+    if (file) {
+      setIsUploading(true);
+      // pinata
+      const data = new FormData()
+      data.set("file", file)
+
+      const response = await fetch("/api/files",{
+        method: "POST",
+        body: data,
+      })
+
+      const signedUrl = await response.json()
+      setImageUrl(signedUrl)
+      
+      // Create a preview URL
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+      setIsUploading(false);
+      
+    }
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    values.image = imageUrl
     console.log(values);
     try {
       const result = await createPost({
         title: values.title,
         description: values.description,
         category: values.category,
-        image: values.image
+        image: imageUrl
       })
 
       if(result.success){
@@ -85,52 +112,13 @@ export default function CreatePostForm() {
     }
   }
 
-  // const uploadImage = async (file: File) => {
-  //   const formData = new FormData();
-  //   formData.append("file", file);
-    
-  //   const response = await fetch('/api/upload', {
-  //     method: 'POST',
-  //     body: formData,
-  //   });
-    
-  //   const data = await response.json();
-    
-  //   if (!data.success) {
-  //     throw new Error(data.error);
-  //   }
-    
-  //   return data.url;
-  // };
-
-  const handleImageUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] as File;
-    if (file) {
-      setIsUploading(true);
-      // pinata
-      const data = new FormData()
-      data.set("file", file)
-
-      const uploadRequest = await fetch("/api/files",{
-        method: "POST",
-        body: data,
-      })
-      // Create a preview URL
-      const url = URL.createObjectURL(file);
-      setPreview(url);
-      // Simulate upload delay
-      setIsUploading(false);
-      // setTimeout(() => {
-      //   form.setValue("image", url);
-      // }, 1000);
-    }
-  };
 
   return (
-    <Form {...form}>
+    <Form {...form} suppressHydrationWarning>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 h-full min-w-[700px] mx-auto p-4 sm:p-6 md:p-8 border border-gray-200 rounded-lg"
+        suppressHydrationWarning
       >
         {/* Title and Category Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

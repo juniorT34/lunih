@@ -9,7 +9,7 @@ import PostCategories from '@/components/shared/PostCategories'
 const Hub = async() => {
   
     return (
-    <div className="bg-primary-50 bg-dotted-pattern bg-cover bg-center">
+    <div className="bg-primary-50 bg-dotted-pattern bg-cover bg-center" suppressHydrationWarning>
       
       <Sample />
       <Hero />
