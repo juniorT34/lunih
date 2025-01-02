@@ -5,7 +5,6 @@ import { z } from "zod";
 import { useState } from "react";
 import { ImagePlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import {toast} from "@/components/ui/use-toast"
 import { useToast } from "@/hooks/use-toast"
 
 import {useRouter} from "next/navigation"
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createPost } from '@/lib/actions/post.actions'
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -85,18 +85,44 @@ export default function CreatePostForm() {
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  // const uploadImage = async (file: File) => {
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+    
+  //   const response = await fetch('/api/upload', {
+  //     method: 'POST',
+  //     body: formData,
+  //   });
+    
+  //   const data = await response.json();
+    
+  //   if (!data.success) {
+  //     throw new Error(data.error);
+  //   }
+    
+  //   return data.url;
+  // };
+
+  const handleImageUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] as File;
     if (file) {
       setIsUploading(true);
+      // pinata
+      const data = new FormData()
+      data.set("file", file)
+
+      const uploadRequest = await fetch("/api/files",{
+        method: "POST",
+        body: data,
+      })
       // Create a preview URL
       const url = URL.createObjectURL(file);
       setPreview(url);
       // Simulate upload delay
-      setTimeout(() => {
-        form.setValue("image", url);
-        setIsUploading(false);
-      }, 1000);
+      setIsUploading(false);
+      // setTimeout(() => {
+      //   form.setValue("image", url);
+      // }, 1000);
     }
   };
 
