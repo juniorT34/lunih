@@ -6,7 +6,7 @@ const  Sample = async() => {
   const { userId } = await auth()
   const user = await currentUser()
   
-  console.log("current user : ",user)
+  // console.log("current user : ",user)
   return (
     <div className=''>
         <Header />
@@ -14,7 +14,7 @@ const  Sample = async() => {
 
         <div>
 
-            <h1 className='text-2xl text-center'>Hey, <span className='font-bold text-primary-100'>{currentUser.name}</span></h1>
+            <h1 className='text-2xl text-center'>Hey, <span className='font-bold text-primary-100'>{user?.firstName}</span></h1>
             <h2 className='text-center text-xl'>Discover projects and creative ideas.</h2>
         </div>
 
