@@ -7,6 +7,7 @@ import { getPosts } from "@/lib/actions/post.actions"
 import {PostsType} from "@/lib/types.ts"
 import {dateToLocaleString,truncateTitle} from "@/lib/utils.ts"
 import {MoreVertical} from "lucide-react"
+import PostActionsMenu from "./PostActionsMenu.tsx"
 
 
 export default async function PostGrid() {
@@ -28,7 +29,9 @@ export default async function PostGrid() {
                 fill
                 src={post.imageUrl}
                 />
-                <span className="absolute top-0 right-[-5] p-4 text-white"><MoreVertical className=""/></span>
+                {post.userId === post.user.id &&
+                <PostActionsMenu postId={post.id}/>
+                }
               </div>
               <div className="p-4">
                 <Badge className="mb-2 bg-primary-100 hover:bg-primary-200">
