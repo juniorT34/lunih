@@ -4,6 +4,7 @@ import { auth, currentUser } from '@clerk/nextjs/server'
 
 const  Sample = async() => {
   const { userId } = await auth()
+  console.log(userId)
   const user = await currentUser()
   
   // console.log("current user : ",user)

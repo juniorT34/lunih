@@ -25,8 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createPost } from '@/lib/actions/post.actions'
-
+import { createPost } from "@/lib/actions/post.actions";
 const formSchema = z.object({
   title: z.string().min(2, {
     message: "title must be at least 2 characters.",
@@ -95,15 +94,19 @@ export default function CreatePostForm() {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    values.image = imageUrl
-    console.log(values);
+    // values.image = imageUrl
+    // console.log(values);
+    
     try {
-      const result = await createPost({
+      console.log("Starting form submission!!!")
+      const formData = {
         title: values.title,
         description: values.description,
         category: values.category,
         image: imageUrl
-      })
+      }
+      console.log("Sending to server : ", formData)
+      const result = await createPost(formData)
 
       if(result.success){
         toast({
@@ -130,7 +133,7 @@ export default function CreatePostForm() {
 
 
   return (
-    <Form {...form} suppressHydrationWarning>
+    <Form {...form} >
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 h-full min-w-[700px] mx-auto p-4 sm:p-6 md:p-8 border border-gray-200 rounded-lg"
