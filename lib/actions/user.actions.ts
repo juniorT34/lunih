@@ -38,28 +38,15 @@ export async function getUserById({id, clerkUserId} : {id?:string,clerkUserId?: 
     }
 }
 
-export async function UpdateUser(id: string, data: Partial<User>){
-    try {
-        const user = await prisma.user.update({
-            where: {id},
-            data
-        })
-    } catch (error) {
-        return {error}
-    }
+export async function getUsers() {
+  try {
+    const users = await prisma.user.findMany();
+    return { success: true, data: users };
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw new Error('Failed to fetch users');
+  }
 }
-
-export async function DeleteUser(id: string){
-    try {
-        const user = await prisma.user.deleteMany({
-            where: {id}
-        })
-
-    } catch (error) {
-        return {error}
-    }
-}
-
 
 export async function updateUser(clerkUserId: string, userData: Partial<User>) {
   try {

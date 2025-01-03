@@ -2,7 +2,6 @@
 import { auth} from '@clerk/nextjs/server'
 import {revalidatePath} from "next/cache"
 import prisma from "@/lib/prisma";
-// import {}
 import { Category } from "@prisma/client";
 
 export type CreatePostParams = {
@@ -21,13 +20,11 @@ export type UpdatePostParams = {
 }
 
 export async function createPost({title,description,category,image}: CreatePostParams){
-    // console.log("🚀 Server Action Started!")
+    
     try {
 
         const {userId} = await auth()
-        // console.log("🔑 Auth userId:", userId)
         if(!userId){
-            // console.log("❌ No userId found")
             throw new Error("Unauthorized: Must be logged in to create a post")
         }
 
@@ -35,19 +32,11 @@ export async function createPost({title,description,category,image}: CreatePostP
         const user = await prisma.user.findUnique({
             where: {clerkUserId: userId}
         })
-        // console.log("👤 Found user:", user)
         if (!user){
-            // console.log("❌ No user found in database")
             throw new Error("User not found")
         }
         // create post
-        // console.log("📝 Attempting to create post with data:", {
-        //     title,
-        //     description,
-        //     category,
-        //     imageUrl: image,
-        //     userId: user.id
-        // })
+        
         const post = await prisma.post.create({
             data:{
                 title,
@@ -57,7 +46,6 @@ export async function createPost({title,description,category,image}: CreatePostP
                 userId: user.id,
             }
         })
-        // console.log("Post created successfully:", post)
 
         revalidatePath('/hub')
         return {success: true, data: post, message: "Post created successfully"}
@@ -67,6 +55,21 @@ export async function createPost({title,description,category,image}: CreatePostP
         return {
             success: false,
             error: error instanceof Error ? error.message : "Failed to create post"
+        }
+    }
+}
+
+export async function getPosts(){
+    try{
+        const posts = await prisma.post.findMany({
+            include: {user: true},
+            orderBy: {createdAt: "desc"}
+        })
+        return {success: true, data: posts}
+    }catch(error){
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : "Failed to get posts"
         }
     }
 }
