@@ -6,7 +6,17 @@ const nextConfig: NextConfig = {
       bodySizeLimit: undefined,
       allowedOrigins: undefined,
     },
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'salmon-impressive-dove-574.mypinata.cloud',
+        port: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
+
