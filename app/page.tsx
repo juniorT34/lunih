@@ -13,7 +13,7 @@ export default async function Home() {
     redirect("/hub")
   }
   return (
-    <div className="bg-['/dotted-pattern.png']">
+    <div className="bg-['/dotted-pattern.png']" suppressHydrationWarning>
       <Header />
       <section
         className="relative w-full min-h-screen bg-cover bg-center"
