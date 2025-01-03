@@ -94,18 +94,17 @@ export default function CreatePostForm() {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // values.image = imageUrl
-    // console.log(values);
+    
     
     try {
-      console.log("Starting form submission!!!")
+      // console.log("Starting form submission!!!")
       const formData = {
         title: values.title,
         description: values.description,
         category: values.category,
         image: imageUrl
       }
-      console.log("Sending to server : ", formData)
+      // console.log("Sending to server : ", formData)
       const result = await createPost(formData)
 
       if(result.success){
