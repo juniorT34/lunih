@@ -9,7 +9,10 @@ export async function POST(request: NextRequest) {
     const url = await pinata.gateways.createSignedURL({
      	cid: uploadData.cid,
      	expires: 3600,
-  	});
+  	}).optimizeImage({
+      width: 650,
+      format: "webp"
+    });
     return NextResponse.json(url, { status: 200 });
   } catch (e) {
     console.log(e);

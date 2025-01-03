@@ -59,21 +59,37 @@ export default function CreatePostForm() {
     if (file) {
       setIsUploading(true);
       // pinata
-      const data = new FormData()
-      data.set("file", file)
+      try {
+        const data = new FormData()
+        data.set("file", file)
+  
+        const response = await fetch("/api/files",{
+          method: "POST",
+          body: data,
+        })
 
-      const response = await fetch("/api/files",{
-        method: "POST",
-        body: data,
-      })
+        if(!response.ok){
+          throw new Error("Failed to upload image")
+        }
+  
+        const signedUrl = await response.json()
+        setImageUrl(signedUrl)
+        
+        // Create a preview URL
+        const url = URL.createObjectURL(file);
+        setPreview(url);
+      } catch (error) {
+        console.error("Error uploading image : ",error)
+        toast({
+          title:"Error",
+          description: "Failed to upload image. Please try again.",
+          variant: "destructive"
+        })
+        
+      }finally{
 
-      const signedUrl = await response.json()
-      setImageUrl(signedUrl)
-      
-      // Create a preview URL
-      const url = URL.createObjectURL(file);
-      setPreview(url);
-      setIsUploading(false);
+        setIsUploading(false);
+      }
       
     }
   };

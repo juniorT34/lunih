@@ -19,7 +19,8 @@ export async function createPost({title,description,category,image}: CreatePostP
 
         // user from db
         const user = await prisma.user.findUnique({
-            where: {clerkUserId: userId}
+            where: {clerkUserId: userId},
+            select: {id: true}
         })
 
         if (!user){
@@ -33,8 +34,6 @@ export async function createPost({title,description,category,image}: CreatePostP
                 category,
                 imageUrl: image,
                 userId: user.id,
-                createdAt: new Date(),
-                updatedAt: new Date()
             }
         })
 
