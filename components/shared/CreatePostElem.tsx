@@ -1,5 +1,4 @@
 import React from 'react'
-import { CreatePostForm } from './CreatePostForm'
 import CreatePost from './CreatePost'
 
 type Props = {}

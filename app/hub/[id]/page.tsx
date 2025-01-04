@@ -3,10 +3,10 @@ import React from 'react'
 
 type Props = {}
 
-const Post = (props: Props) => {
+const Post = ({params}:{params : {id: string}}) => {
   return (
     <div className=''>
-        <SinglePost />
+        <SinglePost postId={params.id}/>
     </div>
   )
 }
