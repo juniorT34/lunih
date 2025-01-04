@@ -8,11 +8,13 @@ import {PostsType} from "@/lib/types.ts"
 import {dateToLocaleString,truncateTitle} from "@/lib/utils.ts"
 import {MoreVertical} from "lucide-react"
 import PostActionsMenu from "./PostActionsMenu.tsx"
-
+import CardActions from "./CardActions.tsx"
+import { auth, currentUser } from '@clerk/nextjs/server'
 
 export default async function PostGrid() {
 
   const allPosts = await getPosts()
+  const {userId: currentUserId} = await auth()
 
   return (
     <section className="py-12">
@@ -29,8 +31,8 @@ export default async function PostGrid() {
                 fill
                 src={post.imageUrl}
                 />
-                {post.userId === post.user.id &&
-                <PostActionsMenu postId={post.id}/>
+                {currentUserId === post.user.clerkUserId &&
+                <PostActionsMenu postId={post.id} />
                 }
               </div>
               <div className="p-4">
@@ -53,14 +55,7 @@ export default async function PostGrid() {
               </div>
               </CardContent>
               <CardFooter className="p-4 mt-auto">
-              <div className="flex gap-2 w-full">
-                <Button variant="outline" className="flex-1">
-                Read More
-                </Button>
-                <Button className="flex-1 hover:bg-primary-200 bg-primary-100">
-                Join
-                </Button>
-              </div>
+              <CardActions postId={post.id}/>
               </CardFooter>
             </Card>
             ))}

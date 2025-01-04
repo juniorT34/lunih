@@ -2,33 +2,35 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getPost } from "@/lib/actions/post.actions";
 
-export default function SinglePost() {
+export default async function SinglePost({postId} : string) {
+  const post = await getPost(postId)
+  console.log(post)
   return (
     <article className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12">
         <div className="mx-auto max-w-3xl">
           {/* Category Badge */}
           <Badge className="mb-4 bg-primary-100 hover:bg-primary-200 text-white">
-            Technology
+            {post.data.category}
           </Badge>
 
           {/* Title */}
           <h1 className="mb-6 text-4xl font-bold leading-tight text-gray-900">
-            The Impact of Technology on the Workplace: How Technology is
-            Changing
+            {post.data.title}
           </h1>
 
           {/* Author Info */}
           <div className="mb-8 flex items-center gap-3">
             <Avatar className="h-10 w-10">
-              <AvatarImage alt="Tracey Wilson" src="/person1.jpg" />
+              <AvatarImage alt={post.data.user.firstName} src={post.data.user.imageUrl} />
               <AvatarFallback>TW</AvatarFallback>
             </Avatar>
             <div className="w-full flex justify-between items-center">
               <div>
-                <p className="font-medium text-gray-900">Tracey Wilson</p>
-                <p className="text-sm text-gray-500">August 20, 2022</p>
+                <p className="font-medium text-gray-900">{post.data.user.firstName} {post.data.user.lastName}</p>
+                <p className="text-sm text-gray-500"></p>
               </div>
               <Button className="bg-primary-100 hover:bg-primary-200 text-white">
                 Join
