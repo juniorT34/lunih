@@ -34,7 +34,7 @@ const PostActionsMenu = ({ postId }: PostActionsMenuProps) => {
 
   const handleDelete = async () => {
     await deletePost(postId);
-    console.log('Deleting post:', postId);
+    // console.log('Deleting post:', postId);
     setShowDeleteDialog(false);
   };
 
@@ -45,13 +45,13 @@ const PostActionsMenu = ({ postId }: PostActionsMenuProps) => {
           <MoreVertical className="h-6 w-6 text-white hover:text-gray-200" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={handleEdit}>
+          <DropdownMenuItem onClick={handleEdit} className='cursor-pointer'>
             <Edit className="mr-2 h-4 w-4" />
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem 
             onClick={() => setShowDeleteDialog(true)}
-            className="text-red-600 focus:text-red-600"
+            className="text-red-600 focus:text-red-600 hover:cursor-pointer"
           >
             <Trash className="mr-2 h-4 w-4" />
             Delete
