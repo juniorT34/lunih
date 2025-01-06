@@ -17,8 +17,16 @@ export interface Post {
   user: User;
 }
 
+export interface PaginationInfo {
+  total: number
+  totalPages: number
+  currentPage: number
+  limit: number
+}
+
 export interface PostsType {
-  success: boolean;
-  data?: Post[];
-  error?: string;
+  success: boolean
+  data: Post[]
+  pagination: PaginationInfo
+  error?: string
 }

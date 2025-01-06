@@ -2,11 +2,11 @@ import React from 'react'
 import Sample from '@/components/shared/Sample'
 import Footer from '@/components/shared/Footer'
 import Hero from '@/components/shared/PostHero'
-import PostGrid from '@/components/shared/Posts'
 import { SearchBar } from '@/components/shared/SearchBar'
 import PostCategories from '@/components/shared/PostCategories'
+import PostsWrapper from '@/components/shared/PostsWrapper'
 
-const Hub = async() => {
+const Hub = () => {
   
     return (
     <div className="bg-primary-50 bg-dotted-pattern bg-cover bg-center" suppressHydrationWarning>
@@ -15,7 +15,7 @@ const Hub = async() => {
       <Hero />
       <SearchBar />
       <PostCategories />
-      <PostGrid />
+      <PostsWrapper />
       <Footer />
     </div>
   )

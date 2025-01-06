@@ -59,20 +59,20 @@ export async function createPost({title,description,category,image}: CreatePostP
     }
 }
 
-export async function getPosts(){
-    try{
-        const posts = await prisma.post.findMany({
-            include: {user: true},
-            orderBy: {createdAt: "desc"}
-        })
-        return {success: true, data: posts}
-    }catch(error){
-        return {
-            success: false,
-            error: error instanceof Error ? error.message : "Failed to get posts"
-        }
-    }
-}
+// export async function getPosts(){
+//     try{
+//         const posts = await prisma.post.findMany({
+//             include: {user: true},
+//             orderBy: {createdAt: "desc"}
+//         })
+//         return {success: true, data: posts}
+//     }catch(error){
+//         return {
+//             success: false,
+//             error: error instanceof Error ? error.message : "Failed to get posts"
+//         }
+//     }
+// }
 export async function getPost(postId: string){
     
     try{
@@ -100,6 +100,36 @@ export async function getPost(postId: string){
     }
     
 }
+
+export async function getPosts(page: number = 1, limit: number = 9) {
+    try {
+      const skip = (page - 1) * limit
+      const posts = await prisma.post.findMany({
+        include: { user: true },
+        orderBy: { createdAt: "desc" },
+        take: limit,
+        skip
+      })
+  
+      const total = await prisma.post.count()
+  
+      return {
+        success: true,
+        data: posts,
+        pagination: {
+          total,
+          totalPages: Math.ceil(total / limit),
+          currentPage: page,
+          limit
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to get posts"
+      }
+    }
+  }
 
 export async function updatePost({postId,title,description, category, image}: UpdatePostParams){
     try {

@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -7,19 +8,61 @@ import {PostsType, Post} from "@/lib/types"
 import {dateToLocaleString,truncateTitle} from "@/lib/utils"
 import PostActionsMenu from "./PostActionsMenu"
 import CardActions from "./CardActions"
-import { auth} from '@clerk/nextjs/server'
+import { Pagination } from "./Pagination"
+import { useEffect, useState } from "react"
+const ITEMS_PER_PAGE = 6
+interface PostsProps {
+  UserId: string | null
+}
+export default function PostGrid({ UserId }: PostsProps) {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [allPosts, setAllPosts] = useState<PostsType>()
+  const [isLoading, setIsLoading] = useState(true)
+  const totalPages = Math.ceil((allPosts?.data?.length || 0) / ITEMS_PER_PAGE)
 
-export default async function PostGrid() {
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const endIndex = startIndex + ITEMS_PER_PAGE
+  const currentPosts = allPosts?.data?.slice(startIndex, endIndex)
+  
+  console.log(UserId)
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const response = await getPosts() as PostsType
+        setAllPosts({
+          ...response,
+          data: (response.data || []).map(post => ({
+            ...post,
+            user: {
+              ...post.user,
+              imageUrl: post.user.imageUrl || ''
+            }
+          }))
+        })
+      } catch (error) {
+        console.error('Error fetching posts:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  const allPosts = await getPosts() as PostsType
-  const {userId: currentUserId} = await auth()
+    fetchPosts()
+  }, [])
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  if (isLoading) {
+    return <div>Loading posts...</div>
+  }
 
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
         <h2 className="mb-8 text-2xl font-bold">Latest Posts</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {allPosts.data?.map((post: Post) => (
+            {currentPosts?.map((post: Post) => (
             <Card key={post.id} className="overflow-hidden">
               <CardContent className="p-0">
               <div className="relative h-48">
@@ -29,7 +72,7 @@ export default async function PostGrid() {
                 fill
                 src={post.imageUrl}
                 />
-                {currentUserId === post.user.clerkUserId &&
+                {UserId === post.user.clerkUserId &&
                 <PostActionsMenu postId={post.id} />
                 }
               </div>
@@ -58,6 +101,13 @@ export default async function PostGrid() {
             </Card>
             ))}
         </div>
+        {totalPages >= 1 && (
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </section>
   )
