@@ -1,37 +1,58 @@
-import Image from "next/image"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { getRandomPost } from "@/lib/actions/post.actions"
+// import { useRouter } from "next/navigation"
+import { dateToLocaleString } from "@/lib/utils"
+import { Card, CardContent } from "../ui/card"
+import Image from 'next/image'
+import { Badge } from "../ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import Link from "next/link"
 
-export default function Hero() {
+export default async function PostHero() {
+  const randomPost = await getRandomPost()
+  // const router = useRouter()
+
+  if (!randomPost.success || !randomPost.data) {
+    return <p></p>
+  }
+
+  const post = randomPost.data
+
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
-        <Card className="overflow-hidden">
+        <Card 
+          className="overflow-hidden cursor-pointer"
+          
+        >
           <CardContent className="p-0">
-            <div className="relative h-[400px] w-full">
+            <div className="relative h-[400px]">
+              <Link href={`/hub/${post.id}`}>
               <Image
-                alt="Featured post"
+                alt={post.title}
                 className="object-cover"
                 fill
-                src="/random2.jpg"
+                src={post.imageUrl || '/1.jpg'}
               />
+              
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
-                <Badge className="mb-2 bg-primary-100 hover:bg-primary-200">Internship</Badge>
+                <Badge className="mb-2 bg-primary-100 hover:bg-primary-200">
+                  {post.category}
+                </Badge>
                 <h1 className="mb-4 text-2xl font-bold">
-                  The Impact of Technology on the Workplace: How Technology is Changing
+                  {post.title}
                 </h1>
                 <div className="flex items-center gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage alt="Author" src="/person2.jpg" />
-                    <AvatarFallback>A</AvatarFallback>
+                    <AvatarImage alt={post.user.firstName} src={post.user.imageUrl || '/person2.jpg'} />
+                    <AvatarFallback>{post.user.firstName[0]}</AvatarFallback>
                   </Avatar>
                   <div className="text-sm">
-                    <p className="font-medium">John Smith</p>
-                    <p className="text-gray-300">August 20, 2023</p>
+                    <p className="font-medium">{post.user.firstName} {post.user.lastName}</p>
+                    <p className="text-gray-300">{dateToLocaleString(post.createdAt)}</p>
                   </div>
                 </div>
               </div>
+            </Link>
             </div>
           </CardContent>
         </Card>
@@ -39,4 +60,3 @@ export default function Hero() {
     </section>
   )
 }
-
