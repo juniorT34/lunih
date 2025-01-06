@@ -34,14 +34,14 @@ const formSchema = z.object({
   description: z
     .string()
     .min(20, { message: "description must be at least 20 characters" }),
-  image: z.string().optional(),
+  image: z.string(),
 });
 
 export default function EditPostForm({ postId }: { postId: string }) {
   const [isUploading, setIsUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [preview, setPreview] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
   const router = useRouter();
   const { toast } = useToast();
 
@@ -55,96 +55,97 @@ export default function EditPostForm({ postId }: { postId: string }) {
     },
   });
 
+  // Fetch post data and populate form
   useEffect(() => {
     const fetchPost = async () => {
-      if (!postId){
-        setError("Post ID is required");
-        setIsLoading(false);
-      };
-      
+      console.log("Fetching post with ID:", postId); // Debug log
       try {
         const response = await getPost(postId);
-        // console.log("Post response:", response);
-        if (!response.success) {
-          throw new Error(response.error);
-        }
-
-        const post = response.data;
-        if (!post) {
-          throw new Error("No post data received");
-        }
-        
+        console.log("Response from getPost:", response); // Debug log
+  
         if (response.success && response.data) {
           const post = response.data;
+          console.log("Post data to be set:", post); // Debug log
           
-          form.reset({
-            title: post.title,
-            category: post.category,
-            description: post.description,
-            image: post.imageUrl ?? undefined,
-          });
+          // Make sure we're setting all the required fields
+          const formData = {
+            title: post.title || "",
+            category: post.category || "",
+            description: post.description || "",
+            image: post.imageUrl || "",
+          };
           
+          console.log("Form data being set:", formData); // Debug log
+          
+          form.reset(formData);
+          setImageUrl(post.imageUrl || "");
           setPreview(post.imageUrl || "");
-          setError(null);
+          setIsLoading(false); // Make sure we set loading to false on success
         } else {
           throw new Error(response.error || "Failed to fetch post");
         }
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : "Failed to fetch post";
-        setError(errorMessage);
+        console.error("Error in fetchPost:", error); // Debug log
         toast({
           title: "Error",
-          description: error instanceof Error ? error.message : "Failed to fetch post data",
+          description: error instanceof Error ? error.message : "Failed to fetch post data.",
           variant: "destructive",
         });
         router.push("/hub");
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Make sure loading is set to false in all cases
       }
     };
-
+  
     fetchPost();
-  }, [postId, form, toast]);
-
+  }, [postId, form, toast, router]);
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const file = e.target.files?.[0] as File;
+    if (file) {
+      setIsUploading(true);
+      try {
+        const data = new FormData();
+        data.set("file", file);
 
-    setIsUploading(true);
-    try {
-      const data = new FormData();
-      data.set("file", file);
+        const response = await fetch("/api/files", {
+          method: "POST",
+          body: data,
+        });
 
-      const response = await fetch("/api/files", {
-        method: "POST",
-        body: data,
-      });
+        if (!response.ok) {
+          throw new Error("Failed to upload image");
+        }
 
-      if (!response.ok) throw new Error("Failed to upload image");
+        const signedUrl = await response.json();
+        setImageUrl(signedUrl);
 
-      const signedUrl = await response.json();
-      form.setValue("imageUrl", signedUrl);
-      setPreview(URL.createObjectURL(file));
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to upload image. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsUploading(false);
+        // Create a preview URL
+        const url = URL.createObjectURL(file);
+        setPreview(url);
+      } catch (error) {
+        console.error("Error uploading image : ", error);
+        toast({
+          title: "Error",
+          description: "Failed to upload image. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const result = await updatePost({
-        postId,
+      const formData = {
+        postId: postId,
         title: values.title,
         description: values.description,
         category: values.category,
-        image: preview
-      });
+        image: imageUrl,
+      };
+
+      const result = await updatePost(formData);
 
       if (result.success) {
         toast({
@@ -153,31 +154,26 @@ export default function EditPostForm({ postId }: { postId: string }) {
         });
         router.push("/hub");
       } else {
-        throw new Error(result.error || "Failed to update post");
+        toast({
+          title: "Error",
+          description: result.error || "Failed to update post",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Something went wrong",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
     }
   }
 
   if (isLoading) {
+    console.log("Component is in loading state"); // Debug log
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <Loader2 className="w-8 h-8 animate-spin" />
-        <p>Loading post data...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <p className="text-red-500">{error}</p>
-        <Button onClick={() => router.push("/hub")}>Return to Hub</Button>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-6 h-6 animate-spin" />
       </div>
     );
   }
@@ -187,7 +183,9 @@ export default function EditPostForm({ postId }: { postId: string }) {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 h-full min-w-[700px] mx-auto p-4 sm:p-6 md:p-8 border border-gray-200 rounded-lg"
+        suppressHydrationWarning
       >
+        {/* Title and Category Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -230,6 +228,7 @@ export default function EditPostForm({ postId }: { postId: string }) {
           />
         </div>
 
+        {/* Description Section */}
         <FormField
           control={form.control}
           name="description"
@@ -248,9 +247,10 @@ export default function EditPostForm({ postId }: { postId: string }) {
           )}
         />
 
+        {/* Image Upload Section */}
         <FormField
           control={form.control}
-          name="imageUrl"
+          name="image"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Upload Image</FormLabel>

@@ -3,13 +3,13 @@ import Footer from '@/components/shared/Footer'
 import Header from '@/components/shared/Header'
 import React from 'react'
 
-type Props = {}
 
-const EditPost = ({ params }: { params: { id: string } }) => {
+const EditPost = ({ params }: { params: { postId: string } }) => {
+  console.log(params.postId)
   return (
     <div className='bg-primary-50 bg-dotted-pattern bg-cover bg-center'>
         <Header />
-        <EditPostElement postId={params.id}/>
+        <EditPostElement postId={params.postId}/>
         <Footer />
     </div>
   )

@@ -73,8 +73,8 @@ export async function getPosts(){
         }
     }
 }
-
 export async function getPost(postId: string){
+    
     try{
         const {userId} = await auth()
         if(!userId){
@@ -98,6 +98,7 @@ export async function getPost(postId: string){
             error: error instanceof Error ? error.message : "Failed to get post"
         }
     }
+    
 }
 
 export async function updatePost({postId,title,description, category, image}: UpdatePostParams){
