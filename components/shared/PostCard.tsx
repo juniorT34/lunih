@@ -2,10 +2,8 @@ import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { getPosts } from "@/lib/actions/post.actions"
-import {PostsType, Post} from "@/lib/types"
+import {Post} from "@/lib/types"
 
-// import { useUser } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server" 
 import PostActionsMenu from "./PostActionsMenu"
 import { dateToLocaleString, truncateTitle } from "@/lib/utils"
