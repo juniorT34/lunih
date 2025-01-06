@@ -181,3 +181,26 @@ export async function deletePost(postId: string){
         }
     }
 }
+
+export async function getRandomPost() {
+    try {
+      const count = await prisma.post.count();
+      // Generate random skip number
+      const skip = Math.floor(Math.random() * count);
+      
+      // Get random post
+      const post = await prisma.post.findFirst({
+        skip,
+        include: {
+          user: true
+        }
+      });
+  
+      return { success: true, data: post };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to get random post"
+      }
+    }
+  }
