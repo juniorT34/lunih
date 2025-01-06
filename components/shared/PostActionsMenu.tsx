@@ -18,9 +18,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { MoreVertical, Edit, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {deletePost} from "@/lib/actions/post.actions.ts"
+import {deletePost} from "@/lib/actions/post.actions"
 
-const PostActionsMenu = ({ postId }) => {
+interface PostActionsMenuProps {
+  postId: string;
+}
+
+const PostActionsMenu = ({ postId }: PostActionsMenuProps) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const router = useRouter();
 

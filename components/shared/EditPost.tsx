@@ -138,7 +138,7 @@ export default function EditPostForm({ postId }: { postId: string }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const formData = {
-        id: postId,
+        postId: postId,
         title: values.title,
         description: values.description,
         category: values.category,

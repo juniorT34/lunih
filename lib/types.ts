@@ -1,10 +1,11 @@
-interface User {
+export interface User {
   firstName: string;
   lastName: string;
   imageUrl: string;
+  clerkUserId: string;
 }
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   description: string;

@@ -3,13 +3,11 @@ import {Sheet,SheetContent,SheetTrigger} from "@/components/ui/sheet"
 import { usePathname } from "next/navigation"
 import { Menu } from "lucide-react"
 import Link from "next/link"
-// import { MdOutlineMenu } from "react-icons/md"
 import {navLinks} from "@/constants"
 import { Button } from "../ui/button"
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
 import { SignOutButton } from '@clerk/nextjs'
 
-type Props = {}
 
 const MobileNav = () => {
     const pathname = usePathname()
