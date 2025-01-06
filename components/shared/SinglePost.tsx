@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getPost } from "@/lib/actions/post.actions";
 import {dateToLocaleString} from "@/lib/utils"
+import RelatedPosts from "./RelatedPosts";
 export default async function SinglePost({ postId }: { postId: string }) {
   const post = await getPost(postId)
 
@@ -69,7 +70,14 @@ export default async function SinglePost({ postId }: { postId: string }) {
               Join this project
             </Button>
           </div>
-      <p>related </p>
+          <div className="w-full">
+
+          <RelatedPosts 
+            currentPostId={post.data?.id || ''}
+            category={post.data?.category || 'Internship'}
+            userId={post.data?.user.id || ''}
+            />
+            </div>
         </div>
       </div>
     </article>

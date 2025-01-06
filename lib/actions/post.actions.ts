@@ -19,6 +19,12 @@ export type UpdatePostParams = {
     image?: string
 }
 
+interface RelatedPostsProps {
+    currentPostId: string
+    category: Category
+    userId: string
+  }
+
 export async function createPost({title,description,category,image}: CreatePostParams){
     
     try {
