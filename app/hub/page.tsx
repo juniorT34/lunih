@@ -14,7 +14,6 @@ const Hub = () => {
       <Sample />
       <Hero />
       <SearchBar />
-      <PostCategories />
       <PostsWrapper />
       <Footer />
     </div>
