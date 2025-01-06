@@ -1,7 +1,6 @@
 import SinglePost from '@/components/shared/SinglePost'
 import React from 'react'
 
-type Props = {}
 
 const Post = ({params}:{params : {id: string}}) => {
   return (
