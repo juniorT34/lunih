@@ -10,6 +10,7 @@ import { auth } from "@clerk/nextjs/server"
 import PostActionsMenu from "./PostActionsMenu"
 import { dateToLocaleString, truncateTitle } from "@/lib/utils"
 import CardActions from "./CardActions"
+// create a prop to change the number of character to display
 
 const  PostCard = async({ post }: { post: Post }) =>{
     
