@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getPost } from "@/lib/actions/post.actions";
 import {dateToLocaleString} from "@/lib/utils"
-export default async function SinglePost({ postId }: { postId: string }) {
+import RelatedPosts from "./RelatedPosts";
+import { Category } from "@prisma/client";
+
+export default async function SinglePost({ postId }: { postId: string },searchParams: { [key: string]: string | string[] | undefined }) {
   const post = await getPost(postId)
 
   return (
@@ -69,7 +72,14 @@ export default async function SinglePost({ postId }: { postId: string }) {
               Join this project
             </Button>
           </div>
-      <p>related </p>
+          <div className="w-full">
+
+          <RelatedPosts 
+            currentPostId={post.data?.id || ''}
+            category={post.data?.category as Category}
+            searchParams={searchParams}
+            />
+            </div>
         </div>
       </div>
     </article>

@@ -20,6 +20,8 @@ interface PostsProps {
 export default function PostGrid({ UserId }: PostsProps) {
   const searchParams = useSearchParams()
   const initialPage = parseInt(searchParams.get("page") || "1")
+  const searchQuery = searchParams.get('search')?.toLowerCase() || ''
+  
   const router = useRouter()
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [allPosts, setAllPosts] = useState<PostsType>()
@@ -34,9 +36,20 @@ export default function PostGrid({ UserId }: PostsProps) {
   const filteredPosts = allPosts?.data?.filter(post =>{
     // console.log('Post category:', post.category);
     // console.log('Active category:', activeCategory);
-    return activeCategory ? post.category.toLowerCase() === activeCategory.toLowerCase() : true;
-  } 
+    // return activeCategory ? post.category.toLowerCase() === activeCategory.toLowerCase() : true;
+    const matchesCategory = activeCategory ? 
+      post.category.toLowerCase() === activeCategory.toLowerCase() : 
+      true
     
+    const matchesSearch = searchQuery ?
+      post.title.toLowerCase().includes(searchQuery) ||
+      post.user.firstName.toLowerCase().includes(searchQuery) ||
+      post.user.lastName?.toLowerCase().includes(searchQuery) ||
+      post.description.toLowerCase().includes(searchQuery) :
+      true
+
+    return matchesCategory && matchesSearch
+  }  
   )
   const currentPosts = filteredPosts?.slice(startIndex, endIndex)
   const totalFilteredPosts = filteredPosts?.length || 0
@@ -98,10 +111,12 @@ export default function PostGrid({ UserId }: PostsProps) {
       {totalFilteredPosts === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500">
-            {activeCategory 
-              ? `No posts found in category "${activeCategory}"`
-              : "No posts found"
-            }
+          {searchQuery 
+                ? `No posts found matching "${searchQuery}"`
+                : activeCategory 
+                  ? `No posts found in category "${activeCategory}"`
+                  : "No posts found"
+              }
           </p>
         </div>
       ) : (
