@@ -2,18 +2,16 @@ import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "../ui/button"
 import { getPosts } from "@/lib/actions/post.actions"
-import {PostsType} from "@/lib/types.ts"
-import {dateToLocaleString,truncateTitle} from "@/lib/utils.ts"
-import {MoreVertical} from "lucide-react"
-import PostActionsMenu from "./PostActionsMenu.tsx"
-import CardActions from "./CardActions.tsx"
-import { auth, currentUser } from '@clerk/nextjs/server'
+import {PostsType, Post} from "@/lib/types"
+import {dateToLocaleString,truncateTitle} from "@/lib/utils"
+import PostActionsMenu from "./PostActionsMenu"
+import CardActions from "./CardActions"
+import { auth} from '@clerk/nextjs/server'
 
 export default async function PostGrid() {
 
-  const allPosts = await getPosts()
+  const allPosts = await getPosts() as PostsType
   const {userId: currentUserId} = await auth()
 
   return (
@@ -21,7 +19,7 @@ export default async function PostGrid() {
       <div className="container mx-auto px-4">
         <h2 className="mb-8 text-2xl font-bold">Latest Posts</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {allPosts.data.map((post: PostsType) => (
+            {allPosts.data?.map((post: Post) => (
             <Card key={post.id} className="overflow-hidden">
               <CardContent className="p-0">
               <div className="relative h-48">
@@ -49,7 +47,7 @@ export default async function PostGrid() {
                 </Avatar>
                 <div className="text-sm">
                   <p className="font-medium">{post.user.firstName} {post.user.lastName}</p>
-                  <p className="text-gray-500">{dateToLocaleString(post.createdAt)}</p>
+                  <p className="text-gray-500">{dateToLocaleString(new Date(post.createdAt))}</p>
                 </div>
                 </div>
               </div>

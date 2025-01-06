@@ -1,7 +1,6 @@
 import React from 'react'
 import EditPost from './EditPost'
 
-type Props = {}
 
 const EditPostElement = ({ postId }: { postId: string }) => {
   return (

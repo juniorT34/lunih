@@ -1,9 +1,7 @@
 import React from 'react'
 import CreatePost from './CreatePost'
 
-type Props = {}
-
-const CreatePostElem = (props: Props) => {
+const CreatePostElem = () => {
   return (
     <div className='mt-10 p-5 flex justify-center'>
       <div >

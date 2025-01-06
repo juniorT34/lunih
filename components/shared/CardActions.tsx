@@ -2,7 +2,7 @@
 import {Button} from "../ui/button"
 import {useRouter} from "next/navigation"
 
-const CardActions = ({ postId }) => {
+const CardActions = ({ postId }: { postId: string }) => {
     const router = useRouter()
     const handleOnClick = () =>{
         router.push(`/hub/${postId}`)
