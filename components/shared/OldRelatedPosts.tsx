@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma"
+import  prisma  from "@/lib/prisma"
 import Link from "next/link"
 import PostCard from "./PostCard"
 import { Button } from "../ui/button"
@@ -9,16 +9,16 @@ import { Post } from "@/lib/types"
 interface RelatedPostsProps {
   currentPostId: string
   category: Category
-  searchParams: { [key: string]: string | string[] | undefined }
+  userId: string
+  page?: number
 }
 
 async function RelatedPosts({ 
   currentPostId, 
-  category,
-  searchParams
+  category,  
+  page = 1 
 }: RelatedPostsProps) {
   const POSTS_PER_PAGE = 3
-  const page = Number(searchParams?.page) || 1
 
   const whereClause = {
     category: category,
@@ -28,16 +28,21 @@ async function RelatedPosts({
   }
 
   const [totalPosts, relatedPosts] = await Promise.all([
-    prisma.post.count({ where: whereClause }),
+    prisma.post.count({
+      where: whereClause
+    }),
     prisma.post.findMany({
       where: whereClause,
-      include: { user: true },
+      include: {
+        user: true
+      },
       take: POSTS_PER_PAGE,
       skip: (page - 1) * POSTS_PER_PAGE,
-      orderBy: { createdAt: 'desc' }
+      orderBy: {
+        createdAt: 'desc'
+      }
     })
   ])
-
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
 
   if (!relatedPosts.length) return null
@@ -53,12 +58,9 @@ async function RelatedPosts({
 
       {totalPages > 1 && (
         <div className="flex justify-center gap-2 mt-8">
-          <Link 
-            href={`/hub/${currentPostId}?page=${Math.max(1, page - 1)}`}
-            className={`${page <= 1 ? 'pointer-events-none opacity-50' : ''}`}
-            prefetch
-          >
-            <Button variant="outline" disabled={page <= 1}>
+          <Link href={`?page=${page - 1}`} 
+                className={`${page <= 1 ? 'pointer-events-none opacity-50' : ''}`}>
+            <Button variant="outline">
               <ChevronLeft className="h-4 w-4 mr-2" />
               Previous
             </Button>
@@ -68,12 +70,9 @@ async function RelatedPosts({
             Page {page} of {totalPages}
           </span>
           
-          <Link 
-            href={`/hub/${currentPostId}?page=${Math.min(totalPages, page + 1)}`}
-            className={`${page >= totalPages ? 'pointer-events-none opacity-50' : ''}`}
-            prefetch
-          >
-            <Button variant="outline" disabled={page >= totalPages}>
+          <Link href={`?page=${page + 1}`}
+                className={`${page >= totalPages ? 'pointer-events-none opacity-50' : ''}`}>
+            <Button variant="outline">
               Next
               <ChevronRight className="h-4 w-4 ml-2" />
             </Button>
