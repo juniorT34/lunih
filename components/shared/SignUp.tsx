@@ -72,7 +72,10 @@ const RegisterPage = () => {
   });
 
   const onSubmit = async (data: RegistrationSchema) => {
+    
+
     if (!isLoaded) return;
+
     try {
       await signUp.create({
         firstName: data.firstName,
@@ -81,7 +84,7 @@ const RegisterPage = () => {
         password: data.password,
         unsafeMetadata:{
             role: data.role
-        }
+        },
       });
 
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
@@ -195,8 +198,10 @@ const RegisterPage = () => {
                 </FormItem>
               )}
             />
-
-            <Button type="submit" className="w-full bg-primary-100 hover:bg-primary-200">
+            
+            {/* CAPTCHA Widget */}
+        <div id="clerk-captcha-container" ></div>
+            <Button type="submit" className="w-full bg-primary-100 hover:bg-primary-200" disabled={form.formState.isSubmitting}>
               Create an account
             </Button>
             <div className="text-sm text-center text-gray-500 mt-4">
@@ -227,8 +232,9 @@ const RegisterPage = () => {
                 </FormItem>
               )}
             />
+            
             {/* CAPTCHA Widget */}
-        <div id="clerk-captcha"></div>
+        {/* <div id="clerk-captcha" ></div> */}
             <Button type="submit" onClick={onPressVerify} className="w-full bg-primary-100 hover:bg-primary-200">
               Verify Email
             </Button>
