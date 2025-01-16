@@ -8,9 +8,11 @@ interface PageProps {
 }
 
 const Post = async ({ params }: PageProps) => {
+  const post = await params
+  const postId = post.id
   return (
     <div className=''>
-      <SinglePost postId={params.id}/>
+      <SinglePost postId={postId}/>
     </div>
   )
 }
