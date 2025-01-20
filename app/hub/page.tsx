@@ -3,7 +3,6 @@ import Sample from '@/components/shared/Sample'
 import Footer from '@/components/shared/Footer'
 import Hero from '@/components/shared/PostHero'
 import { SearchBar } from '@/components/shared/SearchBar'
-import PostCategories from '@/components/shared/PostCategories'
 import PostsWrapper from '@/components/shared/PostsWrapper'
 
 const Hub = () => {

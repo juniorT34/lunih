@@ -5,7 +5,7 @@ export async function createUser(data: User) {
     try {
       // Remove id from data if it's empty string or undefined
       if (!data.id) {
-        const { id, ...userData } = data;
+        const { ...userData } = data;
         const user = await prisma.user.create({
           data: userData,
         });
@@ -32,8 +32,10 @@ export async function getUserById({id, clerkUserId} : {id?:string,clerkUserId?: 
             throw new Error("id or clerkUserId is required")
         }
         const query = id ? {id} : {clerkUserId}
-        const user = await prisma.user.findUnique({where: query})
+        // const user = await prisma.user.findUnique({where: query})
     } catch (error) {
+        console.error("Error fetching user : ", error)
+        return new Response("Error fetching user", {status: 500})
         
     }
 }

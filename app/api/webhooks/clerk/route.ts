@@ -130,9 +130,9 @@ export async function POST(req: Request) {
     }
 
     try {
-      const userData = {
-        clerkUserId: id,
-      }
+      // const userData = {
+      //   clerkUserId: id,
+      // }
       // console.log("deleting user with data : ", userData)
       const result = await deleteUser(id)
       // console.log("User delete result : ", result)

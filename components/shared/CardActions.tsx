@@ -8,9 +8,9 @@ const CardActions = ({ postId }: { postId: string }) => {
         router.push(`/hub/${postId}`)
     }
 
-    const handleJoin = () =>{
+    // const handleJoin = () =>{
 
-    }
+    // }
 
   return (
     <div className="flex gap-2 w-full">

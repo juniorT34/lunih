@@ -55,9 +55,10 @@ const SignInPage = () => {
         console.log(JSON.stringify(result, null, 2));
       }
       
-    } catch (error: any) {
+    } catch (error) {
       console.error(JSON.stringify(error, null, 2));
-      setError(error.errors?.[0]?.message || "An error occurred during sign in");
+      const err = error as any;
+      setError(err.errors?.[0]?.message || "An error occurred during sign in");
     }
   };
 

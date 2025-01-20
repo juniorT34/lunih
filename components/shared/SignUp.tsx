@@ -218,7 +218,7 @@ const RegisterPage = () => {
             <FormField
               control={formCode.control}
               name="code"
-              render={({ field }) => (
+              render={({ }) => (
                 <FormItem>
                   <FormLabel>Verification Code</FormLabel>
                   <FormControl>
