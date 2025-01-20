@@ -4,7 +4,7 @@ import Footer from "@/components/shared/Footer";
 import Hero from "@/components/shared/PostHero";
 import { SearchBar } from "@/components/shared/SearchBar";
 import PostsWrapper from "@/components/shared/PostsWrapper";
-
+export const dynamic = 'force-dynamic';
 const Hub = () => {
   return (
     <div
@@ -17,7 +17,9 @@ const Hub = () => {
       <Suspense fallback={<div>Loading hero...</div>}>
         <Hero />
       </Suspense>
-      <SearchBar />
+      <Suspense fallback={<div>Loading search bar...</div>}>
+        <SearchBar />
+      </Suspense>
       <Suspense fallback={<div>Loading posts...</div>}>
         <PostsWrapper />
       </Suspense>

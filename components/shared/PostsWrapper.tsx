@@ -14,4 +14,3 @@ export default async function PostsWrapper() {
 }
 }
 
-export const dynamic = 'force-dynamic';

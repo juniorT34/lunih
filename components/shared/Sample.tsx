@@ -24,4 +24,3 @@ const  Sample = async() => {
 }
 
 export default Sample
-export const dynamic = 'force-dynamic';
