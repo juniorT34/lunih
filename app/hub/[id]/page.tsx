@@ -13,7 +13,7 @@ async function Post({ params}: PageProps) {
   return (
     <div className="container mx-auto px-4 py-8">
       <Suspense fallback={<div>Loading...</div>}>
-        <SinglePost postId={postId} searchParams={searchParams} />
+        <SinglePost postId={postId} />
       </Suspense>
     </div>
   );
