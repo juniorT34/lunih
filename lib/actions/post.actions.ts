@@ -275,10 +275,10 @@ export async function getDashboardStats(): Promise<DashboardResponse> {
                 prisma.post.count({
                     where: {status: 'pending'}
                 }),
-                prisma.joinlist.count({
+                prisma.joinList.count({
                     where: {status: 'approved'}
                 }),
-                prisma.joinlist.count({
+                prisma.joinList.count({
                     where: {status: 'pending'}
                 })
             ]);
@@ -299,10 +299,10 @@ export async function getDashboardStats(): Promise<DashboardResponse> {
                 prisma.post.count({
                     where: {userId: user.id, status: 'pending'}
                 }),
-                prisma.joinlist.count({
+                prisma.joinList.count({
                     where: {userId: user.id, status: 'approved'}
                 }),
-                prisma.joinlist.count({
+                prisma.joinList.count({
                     where: {userId: user.id, status: 'pending'}
                 })
             ])
