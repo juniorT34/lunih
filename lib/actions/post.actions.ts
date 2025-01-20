@@ -254,23 +254,95 @@ export async function getRandomPost() {
     }
   }
 
+// export async function getDashboardStats(): Promise<DashboardResponse> {
+//     try{
+//         const {userId} = await auth()
+//         if(!userId){
+//             throw new Error("Unauthorized: You must be logged in to view dashboard")
+//         }
+        
+//         const user = await prisma.user.findUnique({
+//             where: {clerkUserId: userId}
+//         })
+
+//         if(!user){
+//             throw new Error("User not found")
+//         }
+
+//         if (user.role === "admin"){
+//             const [totalPosts,pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
+//                 prisma.post.count(),
+//                 prisma.post.count({
+//                     where: {status: 'pending'}
+//                 }),
+//                 prisma.joinList.count({
+//                     where: {status: 'approved'}
+//                 }),
+//                 prisma.joinList.count({
+//                     where: {status: 'pending'}
+//                 })
+//             ]);
+//             return {
+//                 success: true,
+//                 data: {
+//                     totalPosts,
+//                     joinedProjects,
+//                     pendingRequests,
+//                     pendingPosts
+//                 }
+//             }
+//         }else{
+//             const [totalPosts,pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
+//                 prisma.post.count({
+//                     where: {userId: user.id}
+//                 }),
+//                 prisma.post.count({
+//                     where: {userId: user.id, status: 'pending'}
+//                 }),
+//                 prisma.joinList.count({
+//                     where: {userId: user.id, status: 'approved'}
+//                 }),
+//                 prisma.joinList.count({
+//                     where: {userId: user.id, status: 'pending'}
+//                 })
+//             ])
+//             return {
+//                 success: true,
+//                 data: {
+//                     totalPosts,
+//                     joinedProjects,
+//                     pendingRequests,
+//                     pendingPosts
+//                 }
+//             }
+//         }
+//     }catch(error){
+//         console.error("Error getting dashboard stats: ", error)
+//         return {
+//             success: false,
+//             error: error instanceof Error ? error.message : "Failed to get dashboard stats"
+//         }
+
+//     }
+// }
+
 export async function getDashboardStats(): Promise<DashboardResponse> {
-    try{
+    try {
         const {userId} = await auth()
-        if(!userId){
+        if(!userId) {
             throw new Error("Unauthorized: You must be logged in to view dashboard")
         }
         
         const user = await prisma.user.findUnique({
             where: {clerkUserId: userId}
         })
-
-        if(!user){
+        
+        if(!user) {
             throw new Error("User not found")
         }
-
-        if (user.role === "admin"){
-            const [totalPosts,pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
+        
+        if (user.role === "admin") {
+            const [totalPosts, pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
                 prisma.post.count(),
                 prisma.post.count({
                     where: {status: 'pending'}
@@ -282,6 +354,7 @@ export async function getDashboardStats(): Promise<DashboardResponse> {
                     where: {status: 'pending'}
                 })
             ]);
+            
             return {
                 success: true,
                 data: {
@@ -291,8 +364,8 @@ export async function getDashboardStats(): Promise<DashboardResponse> {
                     pendingPosts
                 }
             }
-        }else{
-            const [totalPosts,pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
+        } else {
+            const [totalPosts, pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
                 prisma.post.count({
                     where: {userId: user.id}
                 }),
@@ -306,6 +379,7 @@ export async function getDashboardStats(): Promise<DashboardResponse> {
                     where: {userId: user.id, status: 'pending'}
                 })
             ])
+            
             return {
                 success: true,
                 data: {
@@ -316,12 +390,11 @@ export async function getDashboardStats(): Promise<DashboardResponse> {
                 }
             }
         }
-    }catch(error){
+    } catch(error) {
         console.error("Error getting dashboard stats: ", error)
         return {
             success: false,
             error: error instanceof Error ? error.message : "Failed to get dashboard stats"
         }
-
     }
 }
