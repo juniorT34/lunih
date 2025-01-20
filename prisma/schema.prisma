@@ -26,7 +26,7 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  posts     Post[]
+  posts     Post[]      @relation("UserPosts")
   join_list join_list[]
 }
 
@@ -59,7 +59,7 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user      User        @relation(fields: [userId], references: [id])
+  user      User        @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade)
   join_list join_list[]
 }
 
