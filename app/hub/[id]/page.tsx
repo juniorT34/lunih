@@ -5,10 +5,9 @@ interface PageProps {
   params: Promise<{
     id: string;
   }>;
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-async function Post({ params, searchParams }: PageProps) {
+async function Post({ params}: PageProps) {
   const { id: postId } = await params;
 
   return (
