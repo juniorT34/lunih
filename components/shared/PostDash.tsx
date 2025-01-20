@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { dateToLocaleString, getStatusColor, truncateTitle } from "@/lib/utils";
+import { dateToLocaleString, truncateTitle } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -92,9 +92,11 @@ const PostDash = ({ post, currentUser, onStatusChange }: PostDashProps) => {
 
       <div className="flex justify-between items-center mt-4">
         <span
-          className={`px-3 py-1 rounded-full text-sm ${getStatusColor(
-            post.status
-          )}`}
+          className={`px-3 py-1 rounded-full text-sm ${post.status === 'pending' 
+            ? 'bg-yellow-100 text-yellow-800'
+            : post.status === 'approved'
+            ? 'bg-green-100 text-green-800'
+            : 'bg-red-100 text-red-800'}`}
         >
           {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
         </span>
