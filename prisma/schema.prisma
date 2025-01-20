@@ -27,7 +27,7 @@ model User {
   updatedAt   DateTime @updatedAt
 
   posts     Post[]      @relation("UserPosts")
-  join_list join_list[]
+  joinList joinList[]
 }
 
 enum Category {
@@ -60,11 +60,11 @@ model Post {
   updatedAt   DateTime @updatedAt
 
   user      User        @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade)
-  join_list join_list[]
+  joinList joinList[]
 }
 
 // join list
-model join_list {
+model joinList {
   id        String     @id @default(cuid()) @map("_id")
   postId    String     @db.ObjectId
   userId    String     @db.ObjectId
