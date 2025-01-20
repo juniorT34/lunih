@@ -2,13 +2,13 @@ import SinglePost from '@/components/shared/SinglePost'
 import { Suspense } from 'react'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 async function Post({ params}: PageProps) {
-  const { id: postId } = params;
+  const { id: postId } = await params;
 
   return (
     <div className="container mx-auto px-4 py-8">
