@@ -1,20 +1,23 @@
 import SinglePost from '@/components/shared/SinglePost'
-import React from 'react'
+import { Suspense } from 'react'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const Post = async ({ params }: PageProps) => {
-  const { id: postId } = params;
+async function Post({ params, searchParams }: PageProps) {
+  const { id: postId } = await params;
 
   return (
-    <div>
-      <SinglePost postId={postId} />
+    <div className="container mx-auto px-4 py-8">
+      <Suspense fallback={<div>Loading...</div>}>
+        <SinglePost postId={postId} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
-};
+}
 
-export default Post
+export default Post;
