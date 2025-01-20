@@ -1,5 +1,7 @@
 import Link from 'next/link'
-import { Layout,FileText,Check,ClockArrowUp,Merge } from 'lucide-react'
+import { Layout,FileText,Check,ClockArrowUp,Merge, LogOut } from 'lucide-react'
+
+import {SignOutButton } from "@clerk/nextjs"
 
 const Sidebar = () => {
   return (
@@ -28,6 +30,14 @@ const Sidebar = () => {
           <Check className="w-5 h-5 mr-3" />
           <span>accepted</span>
         </Link>
+        <SignOutButton redirectUrl="/">
+        <div 
+          className="mt-40 flex items-center p-3 text-gray-700 hover:bg-primary-100 rounded-lg"
+          >
+          <LogOut className="w-5 h-5 mr-3" />
+          <span>Sign Out</span>
+        </div>
+        </SignOutButton>
       </nav>
     </aside>
   )
