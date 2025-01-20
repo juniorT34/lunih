@@ -4,17 +4,19 @@ import Header from '@/components/shared/Header'
 import { Suspense } from 'react'
 
 interface PageProps {
-  params: {
-    postId: string
-  }
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 function EditPost({ params}: PageProps) {
+  const {id: postId} = await params;
+
   return (
     <div className='bg-primary-50 bg-dotted-pattern bg-cover bg-center'>
       <Header />
       <Suspense fallback={<div>Loading...</div>}>
-        <EditPostElement postId={params.postId} />
+        <EditPostElement postId={postId} />
       </Suspense>
       <Footer />
     </div>
