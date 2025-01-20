@@ -9,7 +9,7 @@ interface PageProps {
   }>;
 }
 
-function EditPost({ params}: PageProps) {
+async function EditPost({ params}: PageProps) {
   const {id: postId} = await params;
 
   return (
