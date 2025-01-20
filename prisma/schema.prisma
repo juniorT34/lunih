@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,19 +13,21 @@ enum Role {
   school
   admin
 }
-model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  email String @unique
-  // password String 
-  firstName String 
-  lastName String
-  imageUrl String?
-  clerkUserId String @unique
-  role Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  posts Post[]
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String   @unique
+  // password String 
+  firstName   String
+  lastName    String
+  imageUrl    String?
+  clerkUserId String   @unique
+  role        Role
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  posts     Post[]
+  join_list join_list[]
 }
 
 enum Category {
@@ -41,16 +42,38 @@ enum Status {
   not_approved
 }
 
-model Post {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  title String
-  description String
-  imageUrl String?
-  category Category
-  status Status @default(pending)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum JoinStatus {
+  approved
+  pending
+  rejected
+}
 
-  user User @relation(fields: [userId], references: [id])
+model Post {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  title       String
+  description String
+  imageUrl    String?
+  category    Category
+  status      Status   @default(pending)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user      User        @relation(fields: [userId], references: [id])
+  join_list join_list[]
+}
+
+// join list
+model join_list {
+  id        String     @id @default(cuid()) @map("_id")
+  postId    String     @db.ObjectId
+  userId    String     @db.ObjectId
+  status    JoinStatus @default(pending)
+  joined_at DateTime   @default(now())
+  post      Post       @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@index([postId])
+  @@index([userId])
 }
