@@ -29,7 +29,7 @@ const PostActionsMenu = ({ postId }: PostActionsMenuProps) => {
   const router = useRouter();
 
   const handleEdit = () => {
-    router.push(`hub/edit/${postId}`);
+    router.push(`/hub/edit/${postId}`);
   };
 
   const handleDelete = async () => {
