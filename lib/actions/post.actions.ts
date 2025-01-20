@@ -260,7 +260,7 @@ export async function getDashboardStats(): Promise<DashboardResponse> {
         if(!userId){
             throw new Error("Unauthorized: You must be logged in to view dashboard")
         }
-
+        
         const user = await prisma.user.findUnique({
             where: {clerkUserId: userId}
         })
