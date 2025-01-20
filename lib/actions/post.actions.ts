@@ -19,6 +19,19 @@ export type UpdatePostParams = {
     image?: string
 }
 
+export type DashboardStats = {
+    totalPosts: number;
+    joinedProjects: number;
+    pendingRequests: number;
+    pendingPosts: number;
+}
+
+export type DashboardResponse = {
+    success: boolean;
+    data?: DashboardStats;
+    error?: string;
+}
+
 // interface RelatedPostsProps {
 //     currentPostId: string
 //     category: Category
@@ -240,3 +253,75 @@ export async function getRandomPost() {
       }
     }
   }
+
+export async function getDashboardStats(): Promise<DashboardResponse> {
+    try{
+        const {userId} = await auth()
+        if(!userId){
+            throw new Error("Unauthorized: You must be logged in to view dashboard")
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {clerkUserId: userId}
+        })
+
+        if(!user){
+            throw new Error("User not found")
+        }
+
+        if (user.role === "admin"){
+            const [totalPosts,pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
+                prisma.post.count(),
+                prisma.post.count({
+                    where: {status: 'pending'}
+                }),
+                prisma.join_list.count({
+                    where: {status: 'approved'}
+                }),
+                prisma.join_list.count({
+                    where: {status: 'pending'}
+                })
+            ]);
+            return {
+                success: true,
+                data: {
+                    totalPosts,
+                    joinedProjects,
+                    pendingRequests,
+                    pendingPosts
+                }
+            }
+        }else{
+            const [totalPosts,pendingPosts, joinedProjects, pendingRequests] = await Promise.all([
+                prisma.post.count({
+                    where: {userId: user.id}
+                }),
+                prisma.post.count({
+                    where: {userId: user.id, status: 'pending'}
+                }),
+                prisma.join_list.count({
+                    where: {userId: user.id, status: 'approved'}
+                }),
+                prisma.join_list.count({
+                    where: {userId: user.id, status: 'pending'}
+                })
+            ])
+            return {
+                success: true,
+                data: {
+                    totalPosts,
+                    joinedProjects,
+                    pendingRequests,
+                    pendingPosts
+                }
+            }
+        }
+    }catch(error){
+        console.error("Error getting dashboard stats: ", error)
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : "Failed to get dashboard stats"
+        }
+
+    }
+}
