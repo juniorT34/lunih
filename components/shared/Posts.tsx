@@ -22,7 +22,7 @@ export default function PostGrid({ UserId }: PostsProps) {
   const initialPage = parseInt(searchParams.get("page") || "1")
   const searchQuery = searchParams.get('search')?.toLowerCase() || ''
   
-  const router = useRouter()
+  // const router = useRouter()
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [allPosts, setAllPosts] = useState<PostsType>()
   const [isLoading, setIsLoading] = useState(true)

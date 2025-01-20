@@ -19,11 +19,11 @@ export type UpdatePostParams = {
     image?: string
 }
 
-interface RelatedPostsProps {
-    currentPostId: string
-    category: Category
-    userId: string
-  }
+// interface RelatedPostsProps {
+//     currentPostId: string
+//     category: Category
+//     userId: string
+//   }
 
 export async function createPost({title,description,category,image}: CreatePostParams){
     
@@ -169,7 +169,7 @@ export async function updatePost({postId,title,description, category, image}: Up
             }
         })
         revalidatePath('/hub')
-        return {success: true, data: updatePost}
+        return {success: true, data: updatedPost}
     } catch (error) {
         console.error("Error updating post : ", error)
         return {

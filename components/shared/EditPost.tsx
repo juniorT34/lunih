@@ -34,7 +34,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(20, { message: "description must be at least 20 characters" }),
-  image: z.string().optional(),
+  imageUrl: z.string().optional(),
 });
 
 export default function EditPostForm({ postId }: { postId: string }) {
@@ -51,7 +51,7 @@ export default function EditPostForm({ postId }: { postId: string }) {
       title: "",
       category: "",
       description: "",
-      image: "",
+      imageUrl: "",
     },
   });
 
@@ -81,7 +81,7 @@ export default function EditPostForm({ postId }: { postId: string }) {
             title: post.title,
             category: post.category,
             description: post.description,
-            image: post.imageUrl ?? undefined,
+            imageUrl: post.imageUrl ?? undefined,
           });
           
           setPreview(post.imageUrl || "");
@@ -104,7 +104,7 @@ export default function EditPostForm({ postId }: { postId: string }) {
     };
 
     fetchPost();
-  }, [postId, form, toast]);
+  }, [postId, form, toast,router]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -128,7 +128,7 @@ export default function EditPostForm({ postId }: { postId: string }) {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to upload image. Please try again.",
+        description: error + "Failed to upload image. Please try again.",
         variant: "destructive",
       });
     } finally {

@@ -123,7 +123,7 @@ export default function CreatePostForm() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error + "Something went wrong. Please try again.",
         variant: "destructive"
 
       })
