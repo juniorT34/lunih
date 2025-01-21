@@ -49,7 +49,7 @@ const AllPostsPage = async () => {
     return (
         <div className="container mx-auto p-6">
             <h1 className="text-2xl font-bold mb-6">
-                {user.role === 'admin' ? 'All Posts' : 'My Posts'}
+                {user.role === 'admin' ? 'All Pending Posts' : 'Pending Posts'}
             </h1>
             
             <div className="space-y-4">
