@@ -11,6 +11,7 @@ export interface Post {
   description: string;
   category: string;
   imageUrl: string;
+  status: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
