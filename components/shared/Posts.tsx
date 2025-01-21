@@ -10,7 +10,7 @@ import PostActionsMenu from "./PostActionsMenu"
 import CardActions from "./CardActions"
 import { Pagination } from "./Pagination"
 import { useEffect, useState } from "react"
-import { useSearchParams,useRouter } from "next/navigation"
+import { useSearchParams} from "next/navigation"
 import PostCategories from "./PostCategories"
 import { Loader2 } from "lucide-react"
 const ITEMS_PER_PAGE = 6
