@@ -34,6 +34,7 @@ const PostActionsMenu = ({ postId }: PostActionsMenuProps) => {
 
   const handleDelete = async () => {
     await deletePost(postId);
+    router.push(`/hub`);
     // console.log('Deleting post:', postId);
     setShowDeleteDialog(false);
   };
@@ -45,7 +46,7 @@ const PostActionsMenu = ({ postId }: PostActionsMenuProps) => {
           <MoreVertical className="h-6 w-6 text-white hover:text-gray-200" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={handleEdit} className='cursor-pointer'>
+          <DropdownMenuItem onClick={handleEdit} className='cursor-pointer text-primary-100'>
             <Edit className="mr-2 h-4 w-4" />
             Edit
           </DropdownMenuItem>

@@ -40,6 +40,7 @@ async function RelatedPosts({
 
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
 
+
   if (!relatedPosts.length) return null
 
   return (
@@ -51,7 +52,8 @@ async function RelatedPosts({
         ))}
       </div>
 
-      {totalPages > 1 && (
+      {totalPages > 1
+      /* {totalPages > 1 && (
         <div className="flex justify-center gap-2 mt-8">
           <Link 
             href={`/hub/${currentPostId}?page=${Math.max(1, page - 1)}`}
@@ -79,7 +81,7 @@ async function RelatedPosts({
             </Button>
           </Link>
         </div>
-      )}
+      )} */}
     </section>
   )
 }

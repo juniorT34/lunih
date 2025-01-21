@@ -8,11 +8,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import Link from "next/link"
 
 export default async function PostHero() {
+  try {
+    
+  
   const randomPost = await getRandomPost()
   // const router = useRouter()
 
   if (!randomPost.success || !randomPost.data) {
-    return <p></p>
+    return <p>No posts available.</p>
   }
 
   const post = randomPost.data
@@ -59,4 +62,8 @@ export default async function PostHero() {
       </div>
     </section>
   )
+} catch (error) {
+ console.error("Error fetching random post: ", error)
+ return <p>Failed to load featured post.</p>
+}
 }

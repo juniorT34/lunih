@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         hostname: 'salmon-impressive-dove-574.mypinata.cloud',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+        port: '',
+      }
     ],
   },
 };
