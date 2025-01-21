@@ -361,4 +361,34 @@ export const handleStatusChange = async (postId: string, newStatus: 'approved' |
         revalidatePath("/dashboard/posts")
     };
 
+    export const getPendingPosts = async () => {
+        const { userId } = await auth();
+        
+        if (!userId) {
+            throw new Error("Unauthorized");
+        }
+    
+        const user = await prisma.user.findUnique({
+            where: { clerkUserId: userId }
+        });
+    
+        if (!user || user.role !== 'admin') {
+            throw new Error("Unauthorized - Admin only");
+        }
+    
+        const posts = await prisma.post.findMany({
+            where: {
+                status: 'pending'
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                user: true
+            }
+        });
+    
+        return posts;
+    };
+
 
