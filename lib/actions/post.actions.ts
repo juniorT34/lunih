@@ -377,4 +377,155 @@ export const handleStatusChange = async (
         revalidatePath("/dashboard/posts")
     };
 
+ //i am writing   
+ 
+ 
 
+export async function join(postId: string) {
+  try {
+    if (!postId) {
+      throw new Error("Invalid postId: postId must be provided.");
+    }
+
+    const { userId } = await auth();
+    if (!userId) {
+      throw new Error("Unauthorized: You must be logged in to join a post.");
+    }
+
+    // Fetch the user by their Clerk ID
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: userId },
+    });
+
+    if (!user) {
+      throw new Error("User not found: Ensure the user exists in the database.");
+    }
+
+    // Debugging log
+    console.log("Joining post with user and postId:", { userId, postId });
+
+    // Check if a join request already exists
+    const existingJoinRequest = await prisma.joinList.findUnique({
+      where: {
+        postId_userId: {
+          postId,
+          userId: user.id,
+        },
+      },
+    });
+
+    if (existingJoinRequest) {
+      return {
+        success: false,
+        message: "You have already requested to join this post.",
+      };
+    }
+
+    // Create the join request
+    const joinRequest = await prisma.joinList.create({
+      data: {
+        postId,
+        userId: user.id,
+        status: "pending", // Default status
+      },
+    });
+
+    return {
+      success: true,
+      message: "Join request sent successfully. Awaiting approval.",
+      data: joinRequest,
+    };
+  } catch (error) {
+    // Enhanced error logging
+    console.error("Error in join function:", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : null,
+    });
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to send join request.",
+    };
+  }
+}
+
+// Other imports and existing functions omitted for brevity
+// Other imports and existing functions omitted for brevity
+
+export async function getJoinStatus(postId: string) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      throw new Error("Unauthorized: You must be logged in.");
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: userId },
+    });
+
+    if (!user) {
+      throw new Error("User not found: Ensure the user exists in the database.");
+    }
+
+    const joinRequest = await prisma.joinList.findUnique({
+      where: {
+        postId_userId: {
+          postId,
+          userId: user.id,
+        },
+      },
+    });
+
+    return {
+      success: true,
+      status: joinRequest ? joinRequest.status : null, // null if no join request
+    };
+  } catch (error) {
+    console.error("Error fetching join status:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to fetch join status.",
+    };
+  }
+}
+
+export async function joinPost(postId: string) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      throw new Error("Unauthorized: You must be logged in.");
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: userId },
+    });
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    const existingRequest = await prisma.joinList.findUnique({
+      where: { postId_userId: { postId, userId: user.id } },
+    });
+
+    if (existingRequest) {
+      return {
+        success: false,
+        message: "You have already submitted a join request for this post.",
+      };
+    }
+
+    const newRequest = await prisma.joinList.create({
+      data: { postId, userId: user.id, status: "pending" },
+    });
+
+    revalidatePath(`/hub/${postId}`);
+    return { success: true, message: "Join request sent successfully.", data: newRequest };
+  } catch (error) {
+    console.error("Error sending join request:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to send join request.",
+    };
+  }
+}
