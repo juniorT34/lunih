@@ -1,23 +1,33 @@
-interface User {
+export interface User {
   firstName: string;
   lastName: string;
   imageUrl: string;
+  clerkUserId: string;
 }
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   description: string;
   category: string;
   imageUrl: string;
+  status: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
   user: User;
 }
 
+export interface PaginationInfo {
+  total: number
+  totalPages: number
+  currentPage: number
+  limit: number
+}
+
 export interface PostsType {
-  success: boolean;
-  data?: Post[];
-  error?: string;
+  success: boolean
+  data: Post[]
+  pagination: PaginationInfo
+  error?: string
 }

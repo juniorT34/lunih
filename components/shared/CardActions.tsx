@@ -1,23 +1,68 @@
 "use client";
-import {Button} from "../ui/button"
-import {useRouter} from "next/navigation"
 
-const CardActions = ({ postId }) => {
-    const router = useRouter()
-    const handleOnClick = () =>{
-        router.push(`/hub/${postId}`)
-    }
+import { useUser } from "@clerk/nextjs";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
-    const handleJoin = () =>{
+interface CardActionsProps {
+  postId: string;
+}
 
-    }
+const CardActions = ({ postId }: CardActionsProps) => {
+  const router = useRouter();
+  const { user, isLoaded } = useUser();
 
+  const handleOnClick = () => {
+    router.push(`/hub/${postId}`);
+  };
+
+  const handleJoin = () => {
+    console.log("Join clicked");
+  };
+
+  const isStudent = isLoaded && 
+    user?.unsafeMetadata && 
+    user.unsafeMetadata.role === "student";
+
+  // Loading state
+  if (!isLoaded) {
+    return (
+      <div className="w-full">
+        <Button variant="outline" disabled className="w-full">
+          Read More
+        </Button>
+      </div>
+    );
+  }
+
+  // For non-students or when no user is logged in
+  if (!isStudent) {
+    return (
+      <div className="w-full">
+        <Button 
+          variant="outline" 
+          className="w-full"
+          onClick={handleOnClick}
+        >
+          Read More
+        </Button>
+      </div>
+    );
+  }
+
+  // For students only
   return (
-    <div className="flex gap-2 w-full">
-      <Button variant="outline" className="flex-1" onClick={handleOnClick}>
+    <div className="grid grid-cols-2 gap-2 w-full">
+      <Button 
+        variant="outline"
+        onClick={handleOnClick}
+      >
         Read More
       </Button>
-      <Button className="flex-1 hover:bg-primary-200 bg-primary-100">
+      <Button 
+        className="bg-emerald-500 hover:bg-emerald-600 text-white"
+        onClick={handleJoin}
+      >
         Join
       </Button>
     </div>

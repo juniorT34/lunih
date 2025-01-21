@@ -1,13 +1,12 @@
 import React from 'react'
 import Header from './Header'
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { currentUser } from '@clerk/nextjs/server'
 
 const  Sample = async() => {
-  const { userId } = await auth()
-  console.log(userId)
+  
   const user = await currentUser()
   
-  // console.log("current user : ",user)
+  
   return (
     <div className=''>
         <Header />
