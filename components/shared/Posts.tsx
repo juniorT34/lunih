@@ -53,7 +53,7 @@ export default function PostGrid({ UserId }: PostsProps) {
   )
   const currentPosts = filteredPosts?.slice(startIndex, endIndex)
   const totalFilteredPosts = filteredPosts?.length || 0
-  
+
   
   const handleCategorySelect = (category: string | null) => {
     setActiveCategory(category)

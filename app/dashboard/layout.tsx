@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Sidebar from "@/components/shared/Sidebar";
 import { currentUser} from "@clerk/nextjs/server";
 import { UserButton} from "@clerk/nextjs";
+import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -37,6 +38,7 @@ export default async function RootLayout({
                 <UserButton />
               </div>
               {children}
+              <Footer />
             </main>
           </div>
         </div>
