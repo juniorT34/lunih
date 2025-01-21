@@ -370,9 +370,11 @@ export const handleStatusChange = async (
     throw new Error("Unauthorized");
   }
 
-  await prisma.post.update({
-    where: { id: postId },
-    data: { status: newStatus },
-  });
-  revalidatePath("/dashboard/posts");
-};
+        await prisma.post.update({
+            where: { id: postId },
+            data: { status: newStatus }
+        });
+        revalidatePath("/dashboard/posts")
+    };
+
+
