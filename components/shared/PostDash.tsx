@@ -66,7 +66,7 @@ const PostDash = ({ post, currentUser, onStatusChange }: PostDashProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-4 max-w-[900px]">
+    <div className="bg-white rounded-lg shadow-md p-6 mb-4">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
@@ -81,7 +81,9 @@ const PostDash = ({ post, currentUser, onStatusChange }: PostDashProps) => {
               </span>
             </span>
               {isAdmin && 
-              <span className="text-sm text-gray-500">created by: {}</span>
+                <span className="text-sm text-gray-500">
+                Created by: {currentUser.firstName} {currentUser.lastName}
+                </span>
               }
             <span className="text-sm text-gray-500">
               Posted on: {dateToLocaleString(post.createdAt)}

@@ -376,5 +376,19 @@ export const handleStatusChange = async (
         });
         revalidatePath("/dashboard/posts")
     };
+    export const handleJoinStatusUpdate = async (joinId: string, newStatus: 'approved' | 'rejected') => {
+        try {
+            await prisma.joinList.update({
+                where: { id: joinId },
+                data: { status: newStatus }
+            })
+            
+            revalidatePath('/dashboard/pending')
+            return { success: true }
+        } catch (error) {
+            console.error('Error updating join status:', error)
+            return { success: false }
+        }
+    }
 
 
