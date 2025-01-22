@@ -99,18 +99,24 @@ export async function getPost(postId: string) {
     };
   }
 }
-
 export async function getPosts(page: number = 1, limit: number = 9) {
   try {
     const skip = (page - 1) * limit;
     const posts = await prisma.post.findMany({
+      where: {
+        status: "approved", // Only fetch approved posts
+      },
       include: { user: true },
       orderBy: { createdAt: "desc" },
       take: limit,
       skip,
     });
 
-    const total = await prisma.post.count();
+    const total = await prisma.post.count({
+      where: {
+        status: "approved", // Count only approved posts
+      },
+    });
 
     return {
       success: true,
@@ -352,7 +358,7 @@ export async function updatePostStatus(
     throw error;
   }
 }
-
+// rupesh code
 export const handleStatusChange = async (
   postId: string,
   newStatus: "approved" | "not_approved"
@@ -370,30 +376,31 @@ export const handleStatusChange = async (
     throw new Error("Unauthorized");
   }
 
-        await prisma.post.update({
-            where: { id: postId },
-            data: { status: newStatus }
-        });
-        revalidatePath("/dashboard/posts")
-    };
-    export const handleJoinStatusUpdate = async (joinId: string, newStatus: 'approved' | 'rejected') => {
-        try {
-            await prisma.joinList.update({
-                where: { id: joinId },
-                data: { status: newStatus }
-            })
-            
-            revalidatePath('/dashboard/pending')
-            return { success: true }
-        } catch (error) {
-            console.error('Error updating join status:', error)
-            return { success: false }
-        }
-    }
+  await prisma.post.update({
+    where: { id: postId },
+    data: { status: newStatus },
+  });
+  revalidatePath("/dashboard/posts");
+};
+export const handleJoinStatusUpdate = async (
+  joinId: string,
+  newStatus: "approved" | "rejected"
+) => {
+  try {
+    await prisma.joinList.update({
+      where: { id: joinId },
+      data: { status: newStatus },
+    });
 
- //i am writing   
- 
- 
+    revalidatePath("/dashboard/pending");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating join status:", error);
+    return { success: false };
+  }
+};
+
+//i am writing
 
 export async function join(postId: string) {
   try {
@@ -412,7 +419,9 @@ export async function join(postId: string) {
     });
 
     if (!user) {
-      throw new Error("User not found: Ensure the user exists in the database.");
+      throw new Error(
+        "User not found: Ensure the user exists in the database."
+      );
     }
 
     // Debugging log
@@ -458,7 +467,8 @@ export async function join(postId: string) {
 
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to send join request.",
+      error:
+        error instanceof Error ? error.message : "Failed to send join request.",
     };
   }
 }
@@ -478,7 +488,9 @@ export async function getJoinStatus(postId: string) {
     });
 
     if (!user) {
-      throw new Error("User not found: Ensure the user exists in the database.");
+      throw new Error(
+        "User not found: Ensure the user exists in the database."
+      );
     }
 
     const joinRequest = await prisma.joinList.findUnique({
@@ -498,7 +510,8 @@ export async function getJoinStatus(postId: string) {
     console.error("Error fetching join status:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to fetch join status.",
+      error:
+        error instanceof Error ? error.message : "Failed to fetch join status.",
     };
   }
 }
@@ -534,12 +547,17 @@ export async function joinPost(postId: string) {
     });
 
     revalidatePath(`/hub/${postId}`);
-    return { success: true, message: "Join request sent successfully.", data: newRequest };
+    return {
+      success: true,
+      message: "Join request sent successfully.",
+      data: newRequest,
+    };
   } catch (error) {
     console.error("Error sending join request:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to send join request.",
+      error:
+        error instanceof Error ? error.message : "Failed to send join request.",
     };
   }
 }

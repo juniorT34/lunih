@@ -50,17 +50,29 @@ export async function getUsers() {
   }
 }
 
+
 export async function updateUser(clerkUserId: string, userData: Partial<User>) {
   try {
+    // Remove id, createdAt, and updatedAt from update data
+    const { id, createdAt, updatedAt, ...updateData } = userData;
+    
     const updatedUser = await prisma.user.update({
       where: { clerkUserId },
-      data: userData,
+      data: {
+        ...updateData,
+        updatedAt: new Date(), // Update the timestamp
+      },
     });
     
-    return { success: true, data: updatedUser };
+    console.log("User updated successfully:", updatedUser);
+    return new Response(JSON.stringify({ success: true, data: updatedUser }), {
+      status: 200
+    });
   } catch (error) {
     console.error('Error updating user:', error);
-    throw new Error('Failed to update user');
+    return new Response(JSON.stringify({ success: false, error: 'Failed to update user' }), {
+      status: 500
+    });
   }
 }
 
@@ -70,9 +82,14 @@ export async function deleteUser(clerkUserId: string) {
       where: { clerkUserId },
     });
     
-    return { success: true, data: deletedUser };
+    console.log("User deleted successfully:", deletedUser);
+    return new Response(JSON.stringify({ success: true, data: deletedUser }), {
+      status: 200
+    });
   } catch (error) {
     console.error('Error deleting user:', error);
-    throw new Error('Failed to delete user');
+    return new Response(JSON.stringify({ success: false, error: 'Failed to delete user' }), {
+      status: 500
+    });
   }
 }

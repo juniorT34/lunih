@@ -76,10 +76,7 @@ export async function POST(req: Request) {
       const result = await createUser(userData as User)
       // console.log("User creation result : ", result)
       return new Response(JSON.stringify(result), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        status: 200
       })
       // return result
     } catch (error) {
@@ -88,67 +85,61 @@ export async function POST(req: Request) {
     }
   }
 
-  if(eventType === "user.updated"){
-    const {id,email_addresses, first_name,last_name,image_url,unsafe_metadata} = evt.data
-    if (!id){
-      console.error("Missing required data : ", {id})
-      return new Response("Error occured -- missing required data", {status:400})
+  if (eventType === "user.updated") {
+    const { id, email_addresses, first_name, last_name, image_url, unsafe_metadata } = evt.data;
+    
+    if (!id) {
+      console.error("Missing required data:", { id });
+      return new Response("Error occurred -- missing required data", { status: 400 });
     }
 
     try {
-      const userData = {
-        clerkUserId: id,
-        email: email_addresses[0].email_address,
-        firstName: first_name || "",
-        lastName: last_name || "",
-        imageUrl: image_url || "",
-        role: unsafe_metadata.role as Role,
-        createdAt: new Date(),
-        updatedAt: new Date()
+      // Create update data with proper type handling
+      const updateData: Partial<User> = {};
+
+      // Only add fields that are present and not null
+      if (email_addresses?.[0]?.email_address) {
+        updateData.email = email_addresses[0].email_address;
       }
-      // console.log("updating user with data : ", userData)
-      const result = await updateUser(id,userData as Partial<User>)
-      // console.log("User update result : ", result)
-      return new Response(JSON.stringify(result), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      // return result
+      if (first_name !== null && first_name !== undefined) {
+        updateData.firstName = first_name || "";
+      }
+      if (last_name !== null && last_name !== undefined) {
+        updateData.lastName = last_name || "";
+      }
+      if (image_url !== null && image_url !== undefined) {
+        updateData.imageUrl = image_url || "";
+      }
+      if (unsafe_metadata?.role) {
+        updateData.role = unsafe_metadata.role as Role;
+      }
+
+      updateData.updatedAt = new Date();
+
+      console.log("Updating user with data:", updateData);
+      return await updateUser(id, updateData);
     } catch (error) {
-      console.error("Error in webhook handler : ", error)
-      return new Response("Error processing webhook",{status:500})
+      console.error("Error in webhook handler:", error);
+      return new Response("Error processing webhook", { status: 500 });
     }
   }
 
-  if (eventType === "user.deleted"){
-    const {id} = evt.data
-    if (!id){
-      console.error("Missing required data : ", {id})
-      return new Response("Error occured -- missing required data", {status:400})
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
+    
+    if (!id) {
+      console.error("Missing required data:", { id });
+      return new Response("Error occurred -- missing required data", { status: 400 });
     }
 
     try {
-      // const userData = {
-      //   clerkUserId: id,
-      // }
-      // console.log("deleting user with data : ", userData)
-      const result = await deleteUser(id)
-      // console.log("User delete result : ", result)
-      return new Response(JSON.stringify(result), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      // return result
+      return await deleteUser(id);
     } catch (error) {
-      console.error("Error in webhook handler : ", error)
-      return new Response("Error processing webhook",{status:500})
+      console.error("Error in webhook handler:", error);
+      return new Response("Error processing webhook", { status: 500 });
     }
-
-
   }
+
+
   return new Response("Webhook received", {status:200})
 }
