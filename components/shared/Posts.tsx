@@ -122,7 +122,7 @@ export default function PostGrid({ UserId }: PostsProps) {
           <h2 className="mb-8 text-2xl font-bold">Latest Approved Posts</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {currentPosts?.map((post: Post) => (
-              <Card key={post.id} className="overflow-hidden">
+              <Card key={post.id} className="overflow-hidden w-full flex flex-col">
                 <CardContent className="p-0">
                   <div className="relative h-48">
                     <Image
