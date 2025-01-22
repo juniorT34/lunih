@@ -17,7 +17,7 @@ export default async function Home() {
       <Header />
       <section
         className="relative w-full min-h-screen bg-cover bg-center"
-        style={{ backgroundImage: "url(/1.jpeg)" }}
+        style={{ backgroundImage: "url(/lie.png)" }}
       >
         {/* Overlay for the text */}
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">

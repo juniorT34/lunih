@@ -56,7 +56,7 @@ export default {
   			}
   		},
 		  backgroundImage: {
-			'dotted-pattern': "url('/dotted-pattern.png')",
+			'dotted-pattern': "url('/dotted-pattern1.png')",
 		  },	
   		borderRadius: {
   			lg: 'var(--radius)',

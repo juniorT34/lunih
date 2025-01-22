@@ -120,7 +120,7 @@ export default function PostGrid({ UserId }: PostsProps) {
                 {currentPosts?.map((post: Post) => (
                   <Card key={post.id} className="overflow-hidden w-full flex flex-col">
                     <CardContent className="p-0">
-                      <div className="relative h-48">
+                      <div className="relative h-48 opacity-9">
                         <Image
                           alt={post.title}
                           className="object-cover"
