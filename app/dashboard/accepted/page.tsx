@@ -25,14 +25,17 @@ const AllPostsPage = async () => {
 
     // Fetch posts based on user role
     const posts = await prisma.post.findMany({
-      where: {
-      status: 'approved',
-      ...(user.role !== 'admin' && { userId: user.id }) // Admin sees all approved posts, others see only their approved posts
-      },
-      orderBy: {
-      createdAt: 'desc'
-      }
-    });
+        where: {
+          status: 'approved',
+          ...(user.role !== 'admin' && { userId: user.id })
+        },
+        include: {
+          user: true // Include the user (creator) information
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      });
 
     // Convert the Prisma user model to match the User type expected by PostDash
     const currentUser = {

@@ -25,11 +25,14 @@ const PendingJoinsPage = async () => {
 
     const posts = await prisma.post.findMany({
         where: {
-        status: 'pending',
-        ...(user.role !== 'admin' && { userId: user.id }) // Admin sees all approved posts, others see only their approved posts
+          status: 'pending',
+          ...(user.role !== 'admin' && { userId: user.id })
+        },
+        include: {
+          user: true // Include the user (creator) information
         },
         orderBy: {
-        createdAt: 'desc'
+          createdAt: 'desc'
         }
       });
 
@@ -76,6 +79,7 @@ const PendingJoinsPage = async () => {
                         currentUser={currentUser}
                         onStatusChange={handleStatusChange}
                     />
+                    
                 ))}
             </div>
 

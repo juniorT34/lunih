@@ -27,7 +27,9 @@ export type User = {
 };
 
 type PostDashProps = {
-  post: Post;
+  post: Post & {
+    user: User; // Include user (creator) information
+  };
   currentUser: User;
   onStatusChange?: (
     postId: string,
@@ -82,7 +84,7 @@ const PostDash = ({ post, currentUser, onStatusChange }: PostDashProps) => {
             </span>
               {isAdmin && 
                 <span className="text-sm text-gray-500">
-                Created by: {currentUser.firstName} {currentUser.lastName}
+                 Created by: {post.user.firstName} {post.user.lastName}
                 </span>
               }
             <span className="text-sm text-gray-500">
