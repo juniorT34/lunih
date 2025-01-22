@@ -15,7 +15,10 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Lunih",
+  title: {
+    template: "%s | lunih",
+    default: "home | lunih",
+  },
   description: "Liepaja university new idea hub",
 };
 

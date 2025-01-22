@@ -38,7 +38,7 @@ export default async function RootLayout({
                 <UserButton />
               </div>
               {children}
-              <Footer />
+              {/* <Footer /> */}
             </main>
           </div>
         </div>
