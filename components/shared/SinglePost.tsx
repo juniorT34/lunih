@@ -67,7 +67,7 @@ export default async function SinglePost({ postId }: { postId: string },searchPa
           {/* Join Button */}
 
           <div className="mt-12 text-center">
-            <Button onClick={() =>{}}
+            <Button
               size="lg"
               className="bg-primary-100 hover:bg-primary-200 text-white"
               >
