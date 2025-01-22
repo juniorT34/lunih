@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -171,6 +172,7 @@ const RegisterPage = () => {
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
+                  <FormDescription>passoword should be at least 8 characters including letters, numbers, and special characters</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
