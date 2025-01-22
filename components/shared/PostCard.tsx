@@ -15,7 +15,7 @@ const  PostCard = async({ post }: { post: Post }) =>{
     const {userId: UserId} = await auth()
   
     return (
-        <Card key={post.id} className="overflow-hidden w-full">
+        <Card key={post.id} className="overflow-hidden w-full flex flex-col">
                 <CardContent className="p-0">
                   <div className="relative h-48">
                     <Image
