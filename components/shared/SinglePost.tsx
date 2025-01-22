@@ -1,3 +1,4 @@
+"us client"
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,9 +8,11 @@ import {dateToLocaleString} from "@/lib/utils"
 import RelatedPosts from "./RelatedPosts";
 import { Category } from "@prisma/client";
 
+
 export default async function SinglePost({ postId }: { postId: string },searchParams: { [key: string]: string | string[] | undefined }) {
   const post = await getPost(postId)
 
+  
   return (
     <article className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12">
@@ -34,10 +37,11 @@ export default async function SinglePost({ postId }: { postId: string },searchPa
               <div>
                 <p className="font-medium text-gray-900">{post.data?.user.firstName} {post.data?.user.lastName}</p>
                 <p className="text-sm text-gray-500">{post.data?.createdAt ? dateToLocaleString(new Date(post.data.createdAt)) : 'Date not available'}</p>
-              </div>
+              </div> 
               <Button className="bg-primary-100 hover:bg-primary-200 text-white">
                 Join
               </Button>
+              
             </div>
           </div>
 
@@ -58,20 +62,19 @@ export default async function SinglePost({ postId }: { postId: string },searchPa
               {post.data?.description}
             </p>
 
-
-
-            {/* Additional paragraphs would go here */}
           </div>
 
           {/* Join Button */}
+
           <div className="mt-12 text-center">
-            <Button
+            <Button onClick={() =>{}}
               size="lg"
               className="bg-primary-100 hover:bg-primary-200 text-white"
-            >
+              >
               Join this project
             </Button>
           </div>
+            
           <div className="w-full">
 
           <RelatedPosts 
