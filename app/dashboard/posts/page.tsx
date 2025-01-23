@@ -4,11 +4,13 @@ import prisma from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { handleStatusChange } from '@/lib/actions/post.actions';
+import Link from 'next/link';
 
 const AllPostsPage = async () => {
     const { userId } = await auth();
     
     if (!userId) {
+        console.log("User not logged in")
         redirect('/sign-in');
     }
 
@@ -56,12 +58,14 @@ const AllPostsPage = async () => {
             
             <div className="space-y-4">
                 {posts.map((post) => (
+                    <Link href={`/hub/${post.id}`}>
                     <PostDash
                         key={post.id}
                         post={post}
                         currentUser={currentUser}
                         onStatusChange={handleStatusChange}
                     />
+                    </Link>
                 ))}
             </div>
 
