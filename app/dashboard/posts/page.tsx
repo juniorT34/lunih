@@ -58,7 +58,7 @@ const AllPostsPage = async () => {
             
             <div className="space-y-4">
                 {posts.map((post) => (
-                    <Link href={`/hub/${post.id}`}>
+                    <Link href={`/hub/${post.id}`} key={post.id}>
                     <PostDash
                         key={post.id}
                         post={post}
