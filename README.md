@@ -11,8 +11,10 @@ for now the repo is public, also created new branch so we can always come back t
 npm i --legacy-peer-deps or npm install --legacy-peer-deps
 ```
 2. Second, get api Key from clerk @ (clerk.com)
+3. for deploying the project online and being able to get the data from the clerk database(user info), we must create a webhook which can be done on the clerk platform
+4. The .env and .env.local files must look like this : .env : NEXT_PUBLIC_CLERK_SIGN_IN_URL= NEXT_PUBLIC_CLERK_SIGN_UP_URL=  NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL= NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=  DATABASE_URL= , .env.local : NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY= CLERK_SECRET_KEY= SIGNING_SECRET=(webhook) PINATA_API_KEY= PINATA_API_SECRET= PINATA_JWT= 
 
-3. Third, run the development server:
+5. Third, run the development server:
 
 ```bash
 npm run dev
@@ -30,11 +32,18 @@ The LUNIH platform, designed as a web-based collaboration hub for universities, 
 5. **lucide-react** : icon library installed alongside shadcn
 6. **Shadcn-ui** : Ui library and component
 7. **Prisma** : ORM for the mongodb database
+8. **MongoDB**: database for storing all the data
+9. **pinata**: cloud service for storing images
 
 ## Pages or routes : 
 - / : home page
 - /sign-up : sign up page
 - /sign-in : sign in page
 - /hub : project submission page
+- /profile: profile page
 - /dashboard : user information including post information, profile, etc...
+- /dashboard/posts: posts page for the dashboard
+- /dashboard/joined: joined posts for dashboard
+- /dashboard/accepted: accepted posts for dashboard by admin
+- /dashboard/pending: for pending posts not in dashboard not accepted by admin.
 
